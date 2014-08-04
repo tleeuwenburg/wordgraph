@@ -72,7 +72,7 @@ class FixedIntervalAnalyser():
 
 class LinearDistribution(FixedIntervalAnalyser):
 
-    name = "Linear Distribution"
+    name = "linear"
 
     def get_validity(self):
         # calculate the line of best fit
@@ -90,7 +90,7 @@ class LinearDistribution(FixedIntervalAnalyser):
 
 class NormalDistribution(FixedIntervalAnalyser):
 
-    name = "Normal distribution"
+    name = "normal"
 
     def get_validity(self):
 
@@ -112,7 +112,7 @@ class RandomDistribution(FixedIntervalAnalyser):
     No meaninful pattern in the data.
     """
 
-    name = "No distribution"
+    name = "random"
 
     def get_validity(self):
         return 0.1
