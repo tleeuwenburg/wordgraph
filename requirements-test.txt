@@ -1,6 +1,4 @@
 execnet==1.2.0
-numpy==1.8.1
 py==1.4.22
 pytest==2.6.0
 pytest-xdist==1.10
-scipy==0.14.0
