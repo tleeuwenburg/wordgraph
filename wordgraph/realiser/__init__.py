@@ -78,7 +78,6 @@ class English(Realiser):
         ``templates/en/long-*.txt`` templates.
         """
         data = self._data
-        import ipdb; ipdb.set_trace()
         template = env.get_template("en/long-desc.txt")
         return template.render(data)
 
