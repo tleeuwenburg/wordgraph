@@ -43,7 +43,19 @@ def test_graphite_documentation():
     graph = {'graphite_data': graphite_data}
 
     full_long_description = wordgraph.describe(graph, source='graphite')
-    assert full_long_description == "Hello, world!"
+    expected_sents = [
+        'This graph, None, shows the relationship between time and metric',
+        'The x axis, time, ranges from 1311836008 to 1311836012',
+        'The y axis, metric, ranges from 1.0 to 6.0',
+        'It contains 1 series',
+        'The data shows no clear distribution and may be random',
+        ]
+
+    found_sents = [s.strip() for s in full_long_description.split('. ') if s != '']
+
+    for expected, found in zip(expected_sents, found_sents):
+        assert expected == found, "\n%s\n%s " % (expected, found)
+
 
 def test_server_requests():
     """Response data from Graphite server of fictional server requests.
@@ -69,5 +81,14 @@ def test_memory_usage():
     with open('tests/data/memory_usage.json') as data:
         graph = {'graphite_data': json.load(data)}
         full_long_description = wordgraph.describe(graph, source='graphite')
-        expected_words = 'This data is crazy.'
-        assert full_long_description == "Hello, world"
+        expected_sents = [
+            'This graph, None, shows the relationship between time and metric',
+            'The x axis, time, ranges from 1407123600 to 1407124440',
+            'The y axis, metric, ranges from 44736512.0 to 671047680.0',
+            'It contains 1 series'
+        ]
+        
+        found_sents = [s.strip() for s in full_long_description.split('. ') if s != '']
+
+        for expected, found in zip(expected_sents, found_sents):
+            assert expected == found, "\n%s\n%s " % (expected, found)

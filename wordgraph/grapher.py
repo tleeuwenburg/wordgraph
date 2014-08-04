@@ -63,7 +63,8 @@ class GraphiteGraph(Graph):
 
         self.raw_data = raw_data
         self.result_dict = self.defaults.copy()
-        for series in self.raw_data:
+
+        for series in self.raw_data['graphite_data']:
             self._create_series(series)
 
 
@@ -80,7 +81,7 @@ class GraphiteGraph(Graph):
         series_dict = {
             "name": series['target'],
             "distribution": analysis['name'],
-            "min_y_value": analysis['min_y_value']
+            "min_y_value": analysis['min_y_value'],
             "fit": None,
             "start_value": {"x": values[0].x, "y": values[0].y},
             "end_value": {"x": values[-1].x, "y": values[-1].y}
