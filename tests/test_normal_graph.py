@@ -13,34 +13,22 @@
 # limitations under the License.
 
 
-import random
 import pytest
+from scipy.stats import norm
 from wordgraph import analysers
 from wordgraph.points import Point
 
+
+def test_interpolation()
 
 @pytest.mark.parametrize(["mean", "stddev", "offset"],
         [(0, 1, 0),
          (10, 10, -100),
          (-100, 1, -0.5)])
 def test_normal(mean, stddev, offset):
-    minimum = mean - 50 * stddev
-    maximum = mean + 49 * stddev
-    step = stddev / 10
-    x_value = minimum
-    frequency_count = dict()
-    while x_value <= maximum:
-        frequency_count[x_value] = 0
-        x_value += step
-
-    n_datapoints = 10000
-    for i in range(n_datapoints):
-        value = random.gauss(mu=mean, sigma=stddev)
-        x_value = min(x for x in frequency_count if x >= value)
-        if x_value < minimum or x_value > maximum:
-            continue
-        frequency_count[x_value] += 1
-
-    points = [Point(x, y) for x, y in frequency_count.items()]
-
+    # create 100 buckets, from -5.0 to 4.9 inclusive
+    x_values = [(.01 * i - 5) for i in range(1001)]
+    y_values = [(norm.cdf(right) - norm.cdf(left))
+            for left, right in zip(x_values, x_values[1:])]
+    points = [Point(x, y) for x, y in zip(x_values, y_values)]
     assert "???" == analysers.get_analysis(points=points)
