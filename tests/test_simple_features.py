@@ -38,3 +38,11 @@ def test_step_function():
     datapoints = time_values(values)
     features = wordgraph.describe(datapoints)
     assert "" in features
+
+def test_saw_tooth():
+    values = [1.0 + i for i in range(5)]
+    values *= 5
+    values.append(1.0)
+    datapoints = time_values(values)
+    features = wordgraph.describe(datapoints)
+    assert "" in features
