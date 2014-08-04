@@ -41,7 +41,7 @@ def test_graphite_documentation():
     assert full_long_description is not None
 
 def test_server_requests():
-    """Response data from live Graphite server filled with test data.
+    """Response data from Graphite server of fictional server requests.
 
     Fictional data represents server requests for four fictional web servers.
     Each server's request load are approximately linear.
@@ -50,5 +50,17 @@ def test_server_requests():
     """
     with open('tests/data/server_requests.json') as data:
         graphite_data = json.load(data)
+        full_long_description = wordgraph.describe(graphite_data)
+        assert full_long_description is not None
+
+def test_server_requests():
+    """Response data from Graphite server of fictional memory usage.
+
+    Fictional data represents memory usage of a Graphite server.
+
+    http://play.grafana.org/graphite/render?from=-15min&until=now&target=aliasByNode(integral(carbon.agents.ip-172-31-27-225-a.memUsage),3)&format=json
+    """
+    with file('tests/data/memory_usage.json') as data:
+        graphite_data - json.load(data)
         full_long_description = wordgraph.describe(graphite_data)
         assert full_long_description is not None
