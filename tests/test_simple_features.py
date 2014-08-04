@@ -9,6 +9,11 @@ def time_values(values, start=EPOCH_START, increment=1):
         datapoints.append(Point(x=value, y=start + (increment * index)))
     return datapoints
 
+def test_linear_values():
+    datapoints = time_values(3.0 for i in range(10))
+    features = wordgraph.describe(datapoints)
+    assert "" in features
+
 def test_monotonic_up_per_second():
     datapoints = time_values(float(i) for i in range(10))
     features = wordgraph.describe(datapoints)
