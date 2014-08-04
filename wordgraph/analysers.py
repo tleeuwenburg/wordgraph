@@ -93,8 +93,14 @@ class NormalDistribution(FixedIntervalAnalyser):
     name = "Normal distribution"
 
     def get_validity(self):
-        k2, pvalue = stats.normaltest(self.values)
-        return pvalue ** 0.5
+
+        if len(self.values) >= 8:
+            k2, pvalue = stats.normaltest(self.values)
+            return pvalue ** 0.5
+
+        else:
+
+            return 0
 
     def get_result(self):
         return dict(mean=statistics.mean(self.values),

@@ -16,6 +16,10 @@ from . import grapher
 from . import analysers
 from . import realiser
 
+GRAPH_TYPES = {
+    'graphite': grapher.GraphiteGraph
+}
+
 def describe(data, source=None, language='English', demographic='summary'):
     '''
     Describe the supplied graph object, together with a hint about the source of that object.
@@ -34,8 +38,14 @@ def describe(data, source=None, language='English', demographic='summary'):
       -- json, text?
     '''
 
-    graph = grapher.generic()
+    # If the source is a recognised type, then use a specialist graph type
+    if source in GRAPH_TYPES:
+        graph = GRAPH_TYPES[source]()
+
+    else:
+        graph = grapher.generic()
+
     graph.auto_ingest(data)
     text = realiser.english(graph.as_dict()) # , title, x_name, y_name) TODO: how to handle meta
 
-    return None
+    return text

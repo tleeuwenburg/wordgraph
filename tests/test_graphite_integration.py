@@ -17,6 +17,9 @@ import json
 
 import wordgraph
 
+import py
+
+@py.test.mark.xfail
 def test_graphite_documentation():
     """Verify description of Graphite JSON response from Graphite docs.
 
@@ -37,8 +40,11 @@ def test_graphite_documentation():
   ]
 }]
     """)
-    full_long_description = wordgraph.describe(graphite_data)
-    assert full_long_description is not None
+
+    # import ipdb; ipdb.set_trace()
+    data_dict = {'graphite_data': graphite_data}
+    full_long_description = wordgraph.describe(graphite_data, source='graphite')
+    assert full_long_description == "Hello, world!"
 
 def test_server_requests():
     """Response data from Graphite server of fictional server requests.
@@ -49,8 +55,9 @@ def test_server_requests():
     http://play.grafana.org/graphite/render?from=-15min&until=now&target=aliasByNode(scaleToSeconds(apps.fakesite.*.counters.requests.count%2C1)%2C2)&format=json
     """
     with open('tests/data/server_requests.json') as data:
+
         graph = {'graphite_data': json.load(data)}
-        full_long_description = wordgraph.describe(graph)
+        full_long_description = wordgraph.describe(graph, source='graphite')
         assert full_long_description is not None
 
 def test_memory_usage():
