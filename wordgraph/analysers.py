@@ -142,4 +142,5 @@ def get_analysis(points):
     y_values = [point.y for point in sorted(points)]
     analyser = get_best_analyser(values=y_values)
     return dict(p_value=analyser.get_validity(),
+            name=analyser.name,
             result=analyser.get_result())
