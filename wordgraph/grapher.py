@@ -12,18 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import realiser_cases
+def generic():
 
-def test_basic_realiser():
-    
-    input_case = realiser_cases.no_data_case
+    return AutoGraph()
 
-    short_description_expected = input_case.title
-    long_description_expected = ''
-    structured_parts_expected = {}
+class Graph():
 
-    r = realiser.English(input_case)
+    pass
 
-    assert r.short() == short_description_expected
-    assert r.long() == long_description_expected
-    assert r.parts() == structured_parts_expected
+
+class AutoGraph(Graph):
+
+    def auto_ingest(self, raw_data):
+
+        self.raw_data = raw_data
+
+        return

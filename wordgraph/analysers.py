@@ -1,3 +1,18 @@
+# Copyright 2014 Nicholas Farrell
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+#     http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
 """
 Analysers are used to process a single series, and
 produce structured output describing the series.
@@ -18,6 +33,7 @@ Note that the values passed into the analysers are just the y-values;
 you should not need to know the x-values, and you can assume the x distance
 between consecutive points is constant.
 """
+
 
 import statistics
 from scipy import stats
