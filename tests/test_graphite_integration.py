@@ -65,7 +65,7 @@ def test_memory_usage():
 
     http://play.grafana.org/graphite/render?from=-15min&until=now&target=aliasByNode(integral(carbon.agents.ip-172-31-27-225-a.memUsage),3)&format=json
     """
-    with file('tests/data/memory_usage.json') as data:
+    with open('tests/data/memory_usage.json') as data:
         graph = {'graphite_data': json.load(data)}
         full_long_description = wordgraph.describe(graph)
         assert full_long_description is not None
