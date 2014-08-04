@@ -20,9 +20,16 @@ def test_monotonic_down_per_second():
     assert "" in features
 
 def test_tent_map():
-    values = list(float(i) for i in range(10))
+    values = [float(i) for i in range(10)]
     values.append(11.0)
-    values+= list(10.0 - i for i in range(10))
+    values += [10.0 - i for i in range(10)]
+    datapoints = time_values(values)
+    features = wordgraph.describe(datapoints)
+    assert "" in features
+
+def test_step_function():
+    values = [1.0] * 10
+    values += [2.0] * 10
     datapoints = time_values(values)
     features = wordgraph.describe(datapoints)
     assert "" in features
