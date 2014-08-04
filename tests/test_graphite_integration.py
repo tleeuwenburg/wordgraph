@@ -41,7 +41,6 @@ def test_graphite_documentation():
 }]
     """)
 
-    # import ipdb; ipdb.set_trace()
     data_dict = {'graphite_data': graphite_data}
     full_long_description = wordgraph.describe(graphite_data, source='graphite')
     assert full_long_description == "Hello, world!"
