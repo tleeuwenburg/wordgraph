@@ -12,15 +12,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-no_data_case = {
-    title: "Test title",
-    x_name: "Number of people",
-    y_name: "Amount of time",
-
-    series: {
-        "name",
-        stype: "bimodal",
-        start_xy,
-        end_xy,
-    }
+{
+    "title": "xyz",
+    "x_axis": {
+        "label": "xxx",
+        "min": "sfs",
+        "max": "kadfa"
+    },
+    "y_axis": {
+        "label": "xxx",
+        "min": "sfs",
+        "max": "kadfa"
+    },
+    "series": [{
+        "name": "ldfpwd",
+        "distribution": "dfmsalf",
+        "fit": 0.1,  # score between 0 and 1
+        "start_value": {
+            "x": "blah",
+            "y": "blah"
+        },
+        "end_value": {
+            "x": "blah",
+            "y": "blah"
+        },
+        # Distribution dependent observations
+    }, {
+        "name": "ldfpwd",
+        "distribution": "dfmsalf",
+        "fit": 0.1,  # score between 0 and 1
+        "start_value": "<value>",
+        "finish_value": "<value>"
+        # Distribution dependent observations
+    }]
 }

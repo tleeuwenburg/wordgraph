@@ -36,6 +36,6 @@ def describe(data, source=None, language='English', demographic='summary'):
 
     graph = grapher.generic()
     graph.auto_ingest(data)
-    text = realiser.english(graph) # , title, x_name, y_name) TODO: how to handle meta
+    text = realiser.english(graph.as_dict()) # , title, x_name, y_name) TODO: how to handle meta
 
     return None
