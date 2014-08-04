@@ -53,7 +53,7 @@ def test_server_requests():
         full_long_description = wordgraph.describe(graph)
         assert full_long_description is not None
 
-def test_server_requests():
+def test_memory_usage():
     """Response data from Graphite server of fictional memory usage.
 
     Fictional data represents memory usage of a Graphite server.
