@@ -67,7 +67,8 @@ class GraphiteGraph(Graph):
 
     def _create_series(self):
 
-        series = self.raw_data[0]  # Pull out the first series only
+        series_data = self.raw_data['graphite_data']
+        series = series_data[0]  # Pull out the first series only
         series_name = series["target"]
         values = self._convert_points(series['datapoints'])
         analysis = analysers.get_analysis(values)
