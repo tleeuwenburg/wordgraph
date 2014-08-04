@@ -27,11 +27,15 @@ def test_server_requests():
     http://play.grafana.org/graphite/render?from=-15min&until=now&target=aliasByNode(scaleToSeconds(apps.fakesite.*.counters.requests.count%2C1)%2C2)&format=json
     """
     with open('tests/data/server_requests.json') as data:
-        graphite_data = json.load(data)
-        expected_structure = {}
+        # import ipdb; ipdb.set_trace()
 
+        graphite_data = json.load(data)
+        expected_structure =  {'series': [],
+            'title': None,
+            'x_axis': {'label': 'time'},
+            'y_axis': {'label': 'load'}}
 
         g = grapher.GraphiteGraph()
-        g.auto_ingest(data)
+        g.auto_ingest(graphite_data)
         structure = g.as_dict()
         assert structure == expected_structure
