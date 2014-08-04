@@ -1,0 +1,14 @@
+#!/bin/bash -x
+set -e
+
+pushd .requirements
+for reqfile in requirements*txt ; do
+    TEMPDIR="$(mktemp -d /tmp/req.XXXXXXX)"
+    virtualenv -ppython3 "$TEMPDIR"
+    source "$TEMPDIR"/bin/activate
+    pip install -r "$reqfile"
+    pip freeze | sort -n > "../$reqfile"
+    rm -rf "$TEMPDIR"
+done
+
+popd
