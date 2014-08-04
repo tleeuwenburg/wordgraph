@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from . import analysers
+from . import points
+
 def generic():
 
     return AutoGraph()
@@ -55,19 +58,18 @@ class GraphiteGraph(Graph):
 
         self.raw_data = raw_data
         self.result_dict = self.defaults.copy()
+        self._create_series()
 
 
     def as_dict(self):
 
         return self.result_dict.copy()
 
-    def _parse_keys(self):
-        pass
-
     def _create_series(self):
 
-        series_name = self.raw_data['target']
-        values = self.raw_data['datapoints']
+        series = self.raw_data[0]  # Pull out the first series only
+        series_name = series["target"]
+        values = self._convert_points(series['datapoints'])
         series = analysers.get_analysis(values)
 
         series_dict = {
@@ -79,6 +81,10 @@ class GraphiteGraph(Graph):
 
         self.d['series'].append(series_dict)
         
+    def _convert_points(self, list_of_points):
+
+        the_points = [points.Point(x, y) for [x, y] in list_of_points]
+        return the_points
 
 
 
