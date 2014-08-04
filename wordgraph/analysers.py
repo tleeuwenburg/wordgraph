@@ -17,6 +17,9 @@
 Analysers are used to process a single series, and
 produce structured output describing the series.
 
+As a user of this module, you will usually simply invoke
+get_analysis(points).
+
 Analysers do not care about things like axis labels; they
 only need to find the best way of representing the data in
 the graph.
@@ -32,6 +35,7 @@ does the actual analysis.
 Note that the values passed into the analysers are just the y-values;
 you should not need to know the x-values, and you can assume the x distance
 between consecutive points is constant.
+
 """
 
 
@@ -67,12 +71,16 @@ class FixedIntervalAnalyser():
 
 
 class LinearDistribution(FixedIntervalAnalyser):
+
+    name = "Linear Distribution"
+
     def get_validity(self):
         # calculate the line of best fit
         x = list(range(len(self.values)))
         A = np.vstack([x, np.ones(len(x))]).T
         result = np.linalg.lstsq(A, self.values)
         self.gradient, self.constant = result[0]
+        print(result)
         return 0.2  # FIXME
 
     def get_result(self):
@@ -81,6 +89,9 @@ class LinearDistribution(FixedIntervalAnalyser):
 
 
 class NormalDistribution(FixedIntervalAnalyser):
+
+    name = "Normal distribution"
+
     def get_validity(self):
         k2, pvalue = stats.normaltest(self.values)
         return pvalue ** 0.5
@@ -94,6 +105,9 @@ class RandomDistribution(FixedIntervalAnalyser):
     """
     No meaninful pattern in the data.
     """
+
+    name = "No distribution"
+
     def get_validity(self):
         return 0.1
 
@@ -109,8 +123,9 @@ def get_best_analyser(values):
     Instantiate a bunch of analysers and return the one
     which suits this data best.
     """
-    return sorted((analyser for analyser in _analysers(values=values)),
-            key=lambda a: a.get_validity())[-1]
+    return sorted((analyser(values=values)
+        for analyser in _analysers),
+        key=lambda a: a.get_validity())[-1]
 
 
 def assert_fixed_interval(points):
@@ -118,14 +133,13 @@ def assert_fixed_interval(points):
     assert len(x_values) > 1, "Not enough data points!"
     expected_interval_size = (x_values[-1] - x_values[0]) / (len(x_values) - 1)
     for left, right in zip(x_values, x_values[1:]):
-        assert right - left / expected_interval_size < 0.01, \
-                "Intervals on the X axis are not fixed width"
+        assert abs(1 - ((right - left) / expected_interval_size)) < 0.01, \
+            "Intervals on the X axis are not fixed width"
 
 
 def get_analysis(points):
     assert_fixed_interval(points=points)
     y_values = [point.y for point in sorted(points)]
     analyser = get_best_analyser(values=y_values)
-    return dict(analyser=analyser.__class__.__name__,
-            p_value=analyser.get_validity(),
-            result=analyser.get_result(values=y_values))
+    return dict(p_value=analyser.get_validity(),
+            result=analyser.get_result())
