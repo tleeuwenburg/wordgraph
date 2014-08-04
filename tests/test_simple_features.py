@@ -1,13 +1,6 @@
-from wordgraph.points import Point
 import wordgraph
 
-EPOCH_START = 1407109280
-
-def time_values(values, start=EPOCH_START, increment=1):
-    datapoints = []
-    for index, value in enumerate(values):
-        datapoints.append(Point(x=value, y=start + (increment * index)))
-    return datapoints
+from utilities import time_values
 
 def test_linear_values():
     datapoints = time_values(3.0 for i in range(10))
