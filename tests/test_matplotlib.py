@@ -1,8 +1,9 @@
-
-import matplotlib
 import wordgraph
+import py
 
 
+
+@py.test.mark.xfail
 def test_basic_matplotlib():
 
     """
