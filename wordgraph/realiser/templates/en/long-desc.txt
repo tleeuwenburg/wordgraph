@@ -1,0 +1,5 @@
+This graph, {{ title }}, shows the relationship between {{ x_axis.name }} and {{ y_axis.name }}. The x axis, {{ x_axis.name }}, ranges from {{ x_axis.min }} to {{ x_axis.max }}. The y axis, {{ y_axis.name }}, ranges from {{ y_axis.min }} to {{ y_axis.max }}. It contains {{ series | count }} series.
+{% for data in series %}
+    {% set series_index = loop.index %}
+    {% include "en/" + data['distribution']|lower + "-series.txt" %}
+{% endfor %}
