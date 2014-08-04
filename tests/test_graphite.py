@@ -24,4 +24,4 @@ def test_graphite_documentation():
 }]
     """)
     full_long_description = wordgraph.describe(graphite_data)
-    assert False
+    assert full_long_description is not None

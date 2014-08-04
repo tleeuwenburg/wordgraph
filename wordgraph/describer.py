@@ -1,6 +1,8 @@
+from . import grapher
+from . import analysers
+from . import realiser
 
-
-def describe(object, source=None):
+def describe(data, source=None, language='English', demographic='summary'):
     '''
     Describe the supplied graph object, together with a hint about the source of that object.
 
@@ -16,8 +18,10 @@ def describe(object, source=None):
       -- graphite (under dev)
       -- dot, networkx?
       -- json, text?
-
-
     '''
+
+    graph = grapher.generic()
+    graph.auto_ingest(data)
+    text = realiser.english(graph) # , title, x_name, y_name) TODO: how to handle meta
 
     return None
