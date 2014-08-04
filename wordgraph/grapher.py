@@ -70,20 +70,19 @@ class GraphiteGraph(Graph):
         series = self.raw_data[0]  # Pull out the first series only
         series_name = series["target"]
         values = self._convert_points(series['datapoints'])
-        series = analysers.get_analysis(values)
+        analysis = analysers.get_analysis(values)
 
         series_dict = {
             "name": series_name,
-            "distribution": series.distribution,
-            "fit": series.fit,
-
+            "distribution": analysis['name'],
         }
 
-        self.d['series'].append(series_dict)
+        self.result_dict['series'].append(series_dict)
         
     def _convert_points(self, list_of_points):
 
-        the_points = [points.Point(x, y) for [x, y] in list_of_points]
+        # NOTE: Graphite uses None for "no value", but want to plot at '0'
+        the_points = [points.Point(x, y or 0) for [y, x] in list_of_points]
         return the_points
 
 
