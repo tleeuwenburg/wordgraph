@@ -14,12 +14,12 @@
 
 "Test of the Graphite JSON response object."
 import json
+import pytest
 
 import wordgraph
 
-import py
 
-@py.test.mark.xfail
+@pytest.mark.xfail
 def test_graphite_documentation():
     """Verify description of Graphite JSON response from Graphite docs.
 
@@ -41,7 +41,6 @@ def test_graphite_documentation():
 }]
     """)
 
-    data_dict = {'graphite_data': graphite_data}
     full_long_description = wordgraph.describe(graphite_data, source='graphite')
     assert full_long_description == "Hello, world!"
 
