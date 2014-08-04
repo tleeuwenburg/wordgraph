@@ -73,6 +73,7 @@ class LinearDistribution(FixedIntervalAnalyser):
         A = np.vstack([x, np.ones(len(x))]).T
         result = np.linalg.lstsq(A, self.values)
         self.gradient, self.constant = result[0]
+        print(result)
         return 0.2  # FIXME
 
     def get_result(self):
