@@ -20,7 +20,7 @@ import wordgraph
 import random
 import pytest
 
-from utilities import EPOCH_START, time_values
+from utilities import EPOCH_START, to_graphite_metric
 
 def test_time_goes_backwards():
     "A valid time series where time changes linearly backwards"
@@ -30,12 +30,12 @@ def test_time_goes_backwards():
     full_long_description = wordgraph.describe(datapoints)
     assert full_long_description is not None
 
-def test_random_data():
+def test_random_graphite_metric():
     "A time series of 50 data points where every value is random"
     rng = random.Random(0)
     values = [rng.random() for i in range(50)]
-    graph = {'datapoints': time_values(values)}
-    full_long_description = wordgraph.describe(graph, source='raw_points')
+    graph = to_graphite_metric(values)
+    full_long_description = wordgraph.describe(graph, source='graphite')
     assert full_long_description is not None
 
 def test_too_few_points():
