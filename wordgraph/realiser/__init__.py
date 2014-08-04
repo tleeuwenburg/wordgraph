@@ -25,7 +25,10 @@ If you use the realiser classes directly then you will probably be interested in
 
 """
 from jinja2 import Environment, PackageLoader
-from num2words import num2words
+
+def num2words(number, ordinal):
+
+    return 'one'
 
 env = Environment(loader=PackageLoader('wordgraph.realiser', 'templates'))
 
@@ -84,7 +87,7 @@ class English(Realiser):
         ``templates/en/long-*.txt`` templates.
         """
         data = self._data
-        template = env.get_template("en/long-desc.txt")
+        template = env.get_template("en/long/desc.txt")
         return template.render(data)
 
     def short_description(self):

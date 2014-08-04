@@ -54,4 +54,4 @@ def test_nonuniform_time_periods():
     times = [1, 3, 4, 6, 7, 9, 10]
     graph = {'data_points': [Point(x=t, y=1.0) for t in times]}
     with pytest.raises(ValueError):
-        full_long_description = wordgraph.describe(datapoints)
+        full_long_description = wordgraph.describe(graph)

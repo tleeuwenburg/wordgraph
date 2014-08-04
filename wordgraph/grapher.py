@@ -82,7 +82,7 @@ class GraphiteGraph(Graph):
             "name": series['target'],
             "distribution": analysis['name'],
             "min_y_value": analysis['min_y_value'],
-            "fit": None,
+            "fit": analysis['p_value'],
             "start_value": {"x": values[0].x, "y": values[0].y},
             "end_value": {"x": values[-1].x, "y": values[-1].y}
         }

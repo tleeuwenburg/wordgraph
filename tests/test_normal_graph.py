@@ -18,9 +18,6 @@ from scipy.stats import norm
 from wordgraph import analysers
 from wordgraph.points import Point
 
-
-def test_interpolation()
-
 @pytest.mark.parametrize(["mean", "stddev", "offset"],
         [(0, 1, 0),
          (10, 10, -100),
