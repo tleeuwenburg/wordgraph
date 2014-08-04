@@ -1,5 +1,27 @@
+"""
+Analysers are used to process a single series, and
+produce structured output describing the series.
+
+Analysers do not care about things like axis labels; they
+only need to find the best way of representing the data in
+the graph.
+
+The analysers' results are language agnostic, and will be
+translated into natural language elsewhere.
+
+To add a new analyser, simply subclass the FixedIntervalAnalyser and
+implement the two methods. get_validity() will be used to asses which
+analyser is most suitable for describing the data, while get_result()
+does the actual analysis.
+
+Note that the values passed into the analysers are just the y-values;
+you should not need to know the x-values, and you can assume the x distance
+between consecutive points is constant.
+"""
+
 import statistics
 from scipy import stats
+import numpy as np
 
 
 class FixedIntervalAnalyser():
@@ -26,6 +48,20 @@ class FixedIntervalAnalyser():
         values using this analyser.
         """
         return NotImplementedError()
+
+
+class LinearDistribution(FixedIntervalAnalyser):
+    def get_validity(self):
+        # calculate the line of best fit
+        x = list(range(len(self.values)))
+        A = np.vstack([x, np.ones(len(x))]).T
+        result = np.linalg.lstsq(A, self.values)
+        self.gradient, self.constant = result[0]
+        return 0.2  # FIXME
+
+    def get_result(self):
+        return dict(gradient=self.gradient,
+                constant=self.constant)
 
 
 class NormalDistribution(FixedIntervalAnalyser):
@@ -75,4 +111,5 @@ def get_analysis(points):
     y_values = [point.y for point in sorted(points)]
     analyser = get_best_analyser(values=y_values)
     return dict(analyser=analyser.__class__.__name__,
+            p_value=analyser.get_validity(),
             result=analyser.get_result(values=y_values))
