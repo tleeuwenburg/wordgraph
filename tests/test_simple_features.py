@@ -20,21 +20,21 @@ from utilities import time_values
 
 def test_linear_values():
     "Postiive constant value time series in 10, one second increments"
-    datapoints = time_values(3.0 for i in range(10))
-    features = wordgraph.describe(datapoints)
-    assert "" in features
+    graph = {'data_points': time_values(3.0 for i in range(10))}
+    full_long_description = wordgraph.describe(datapoints)
+    assert full_long_description is not None
 
 def test_monotonic_up_per_second():
     "Monotonically increasing positive series in 10, one second increments"
-    datapoints = time_values(float(i) for i in range(10))
-    features = wordgraph.describe(datapoints)
-    assert "" in features
+    graph = {'data_points': time_values(float(i) for i in range(10))}
+    full_long_description = wordgraph.describe(datapoints)
+    assert full_long_description is not None
 
 def test_monotonic_down_per_second():
     "Monotonically descreasing positive series in 10, one second increments"
-    datapoints = time_values(10.0 - i for i in range(10))
-    features = wordgraph.describe(datapoints)
-    assert "" in features
+    graph = {'data_points': time_values(10.0 - i for i in range(10))}
+    full_long_description = wordgraph.describe(datapoints)
+    assert full_long_description is not None
 
 def test_tent_map():
     """Tent map time series
@@ -46,9 +46,9 @@ def test_tent_map():
     values = [float(i) for i in range(10)]
     values.append(11.0)
     values += [10.0 - i for i in range(10)]
-    datapoints = time_values(values)
-    features = wordgraph.describe(datapoints)
-    assert "" in features
+    graph = {'data_points': time_values(values)}
+    full_long_description = wordgraph.describe(datapoints)
+    assert full_long_description is not None
 
 def test_step_function():
     """Step function time series
@@ -59,9 +59,9 @@ def test_step_function():
     """
     values = [1.0] * 10
     values += [2.0] * 10
-    datapoints = time_values(values)
-    features = wordgraph.describe(datapoints)
-    assert "" in features
+    graph = {'data_points': time_values(values)}
+    full_long_description = wordgraph.describe(datapoints)
+    assert full_long_description is not None
 
 def test_saw_tooth():
     """A saw tooth time series
@@ -73,6 +73,6 @@ def test_saw_tooth():
     values = [1.0 + i for i in range(5)]
     values *= 5
     values.append(1.0)
-    datapoints = time_values(values)
-    features = wordgraph.describe(datapoints)
-    assert "" in features
+    graph = {'data_points': time_values(values)}
+    full_long_description = wordgraph.describe(datapoints)
+    assert full_long_description is not None
