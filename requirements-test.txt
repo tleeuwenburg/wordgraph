@@ -2,3 +2,5 @@ execnet==1.2.0
 py==1.4.22
 pytest==2.6.0
 pytest-xdist==1.10
+tox==1.7.2
+virtualenv==1.11.6
