@@ -1,3 +1,2 @@
--rrequirements.txt
 pytest
 pytest-xdist
