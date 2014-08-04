@@ -1,0 +1,9 @@
+The
+    {%- if data.name is defined %} {{ data.name }}
+    {%- else %} {{ series_index|num_to_word }}
+    {% endif -%}
+ series is 
+    {%- if data.fit > 0.75 %} broadly
+    {%- elif data.fit > 0.25 %} somewhat
+    {%- else %} loosely
+    {%- endif %} linear. It has a value an initial value of {{ data.start_value.y|default('unknown') }} at point {{ data.start_value.y }} and {% if data.start_value.y > data.end_value.y %}increased{% else %}decreases{% endif %} until reaching {{ data.end_value.y }} at point {{ data.end_value.x }}.
