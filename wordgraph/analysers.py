@@ -149,4 +149,5 @@ def get_analysis(points):
     analyser = get_best_analyser(values=y_values)
     return dict(p_value=analyser.get_validity(),
             name=analyser.name,
+            min_y_value=min(y_values),
             result=analyser.get_result())

@@ -76,6 +76,7 @@ class GraphiteGraph(Graph):
         series_dict = {
             "name": series_name,
             "distribution": analysis['name'],
+            "min_y_value": analysis['min_y_value']
         }
 
         self.result_dict['series'].append(series_dict)

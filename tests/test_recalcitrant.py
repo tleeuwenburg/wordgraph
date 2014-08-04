@@ -34,8 +34,8 @@ def test_random_data():
     "A time series of 50 data points where every value is random"
     rng = random.Random(0)
     values = [rng.random() for i in range(50)]
-    graph = {'data_points': time_values(values)}
-    full_long_description = wordgraph.describe(datapoints)
+    graph = {'datapoints': time_values(values)}
+    full_long_description = wordgraph.describe(graph, source='raw_points')
     assert full_long_description is not None
 
 def test_too_few_points():
