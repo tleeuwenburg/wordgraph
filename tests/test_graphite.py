@@ -48,7 +48,7 @@ def test_server_requests():
 
     http://play.grafana.org/graphite/render?from=-15min&until=now&target=aliasByNode(scaleToSeconds(apps.fakesite.*.counters.requests.count%2C1)%2C2)&format=json
     """
-    with file('tests/data/server_requests.json') as data:
-        graphite_data - json.load(data)
+    with open('tests/data/server_requests.json') as data:
+        graphite_data = json.load(data)
         full_long_description = wordgraph.describe(graphite_data)
         assert full_long_description is not None
