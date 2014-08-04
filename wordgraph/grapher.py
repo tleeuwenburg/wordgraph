@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import sys
 
 from . import analysers
 from . import points
@@ -41,9 +42,13 @@ class GraphiteGraph(Graph):
             'title': None,
             'x_axis': {
                 'label': 'time',
+                'min': sys.maxsize,
+                'max': -1 * sys.maxsize
             },
             'y_axis': {
-                'label': 'load',
+                'label': 'metric',
+                'min': sys.maxsize,
+                'max': -1 * sys.maxsize
             },
             "series": []
 
@@ -58,36 +63,48 @@ class GraphiteGraph(Graph):
 
         self.raw_data = raw_data
         self.result_dict = self.defaults.copy()
-        self._create_series()
+        for series in self.raw_data:
+            self._create_series(series)
 
 
     def as_dict(self):
 
         return self.result_dict.copy()
 
-    def _create_series(self):
+    def _create_series(self, series):
 
-        series_data = self.raw_data['graphite_data']
-        series = series_data[0]  # Pull out the first series only
-        series_name = series["target"]
         values = self._convert_points(series['datapoints'])
+        self._update_extremes(values)
         analysis = analysers.get_analysis(values)
 
         series_dict = {
-            "name": series_name,
+            "name": series['target'],
             "distribution": analysis['name'],
             "min_y_value": analysis['min_y_value']
+            "fit": None,
+            "start_value": {"x": values[0].x, "y": values[0].y},
+            "end_value": {"x": values[-1].x, "y": values[-1].y}
         }
 
         self.result_dict['series'].append(series_dict)
+
+    def _update_extremes(self, values):
+
+        min_x = self.result_dict['x_axis']['min']
+        max_x = self.result_dict['x_axis']['max']
+        min_y = self.result_dict['y_axis']['min']
+        max_y = self.result_dict['y_axis']['max']
+        for x, y in values:
+            min_x = min(x, min_x)
+            min_y = min(y, min_y)
+            max_x = max(x, max_x)
+            max_y = max(y, max_y)
+        self.result_dict['x_axis']['min'] = min_x
+        self.result_dict['x_axis']['max'] = max_x
+        self.result_dict['y_axis']['min'] = min_y
+        self.result_dict['y_axis']['max'] = max_y
         
     def _convert_points(self, list_of_points):
-
         # NOTE: Graphite uses None for "no value", but want to plot at '0'
         the_points = [points.Point(x, y or 0) for [y, x] in list_of_points]
         return the_points
-
-
-
-
-

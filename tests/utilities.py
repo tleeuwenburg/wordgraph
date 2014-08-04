@@ -21,3 +21,11 @@ def time_values(values, start=EPOCH_START, increment=1):
     for index, value in enumerate(values):
         datapoints.append(Point(y=value, x=start + (increment * index)))
     return datapoints
+
+def to_graphite_metric(values, name="series", **kwargs):
+    datapoints = time_values(values, **kwargs)
+    response = [{
+        "target": name,
+        "datapoints": list([p.y, p.x] for p in datapoints)
+    }]
+    return response
