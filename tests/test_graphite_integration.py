@@ -41,7 +41,7 @@ def test_graphite_documentation():
 
     graph = {'graphite_data': graphite_data}
 
-    full_long_description = wordgraph.describe(graph, source='graphite')
+    full_long = wordgraph.describe(graph, source='graphite')
     expected_sents = [
         'This graph, None, shows the relationship between time and metric',
         'The x axis, time, ranges from 1311836008 to 1311836012',
@@ -50,7 +50,7 @@ def test_graphite_documentation():
         'The entriesseries is loosely linear', #TODO: missing space in this sentence
         ]
 
-    found_sents = [s.strip() for s in full_long_description.split('. ') if s != '']
+    found_sents = [s.strip() for s in full_long.split('. ') if s != '']
 
     for expected, found in zip(expected_sents, found_sents):
         assert expected == found, "\n%s\n%s " % (expected, found)
@@ -67,8 +67,8 @@ def test_server_requests():
     with open('tests/data/server_requests.json') as data:
 
         graph = {'graphite_data': json.load(data)}
-        full_long_description = wordgraph.describe(graph, source='graphite')
-        assert full_long_description is not None
+        full_long = wordgraph.describe(graph, source='graphite')
+        assert full_long is not None
 
 def test_memory_usage():
     """Response data from Graphite server of fictional memory usage.
@@ -79,7 +79,7 @@ def test_memory_usage():
     """
     with open('tests/data/memory_usage.json') as data:
         graph = {'graphite_data': json.load(data)}
-        full_long_description = wordgraph.describe(graph, source='graphite')
+        full_long = wordgraph.describe(graph, source='graphite')
         expected_sents = [
             'This graph, None, shows the relationship between time and metric',
             'The x axis, time, ranges from 1407123600 to 1407124440',
@@ -87,7 +87,7 @@ def test_memory_usage():
             'It contains 1 series'
         ]
         
-        found_sents = [s.strip() for s in full_long_description.split('. ') if s != '']
+        found_sents = [s.strip() for s in full_long.split('. ') if s != '']
 
         for expected, found in zip(expected_sents, found_sents):
             assert expected == found, "\n%s\n%s " % (expected, found)
