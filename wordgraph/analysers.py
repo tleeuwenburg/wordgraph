@@ -147,7 +147,8 @@ class NormalDistribution(FixedIntervalAnalyser):
         return a new set of points which as based on the
         assumed mean and stddev
         """
-        return (Point(point.x, ???) for point in self.points)
+        #return (Point(point.x, ???) for point in self.points)
+        pass
 
 
     def get_validity(self):
@@ -167,7 +168,7 @@ class NormalDistribution(FixedIntervalAnalyser):
         badness = set()
         n_dev = -3
         while n_dev <= 3:
-            badness.add(abs(cnd(n_dev) -
+            #badness.add(abs(cnd(n_dev) -
             n_dev += .05
 
     def get_result(self):

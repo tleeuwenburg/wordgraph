@@ -80,7 +80,7 @@ class GraphiteGraph(Graph):
         series_dict = {
             "name": series['target'],
             "distribution": analysis['name'],
-            "min_y_value": analysis['min_y_value']
+            "min_y_value": analysis['min_y_value'],
             "fit": None,
             "start_value": {"x": values[0].x, "y": values[0].y},
             "end_value": {"x": values[-1].x, "y": values[-1].y}
@@ -103,7 +103,7 @@ class GraphiteGraph(Graph):
         self.result_dict['x_axis']['max'] = max_x
         self.result_dict['y_axis']['min'] = min_y
         self.result_dict['y_axis']['max'] = max_y
-        
+
     def _convert_points(self, list_of_points):
         # NOTE: Graphite uses None for "no value", but want to plot at '0'
         the_points = [points.Point(x, y or 0) for [y, x] in list_of_points]
