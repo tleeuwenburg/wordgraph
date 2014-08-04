@@ -19,7 +19,6 @@ import pytest
 import wordgraph
 
 
-@pytest.mark.xfail
 def test_graphite_documentation():
     """Verify description of Graphite JSON response from Graphite docs.
 
@@ -41,7 +40,9 @@ def test_graphite_documentation():
 }]
     """)
 
-    full_long_description = wordgraph.describe(graphite_data, source='graphite')
+    graph = {'graphite_data': graphite_data}
+
+    full_long_description = wordgraph.describe(graph, source='graphite')
     assert full_long_description == "Hello, world!"
 
 def test_server_requests():
@@ -65,7 +66,8 @@ def test_memory_usage():
 
     http://play.grafana.org/graphite/render?from=-15min&until=now&target=aliasByNode(integral(carbon.agents.ip-172-31-27-225-a.memUsage),3)&format=json
     """
-    with file('tests/data/memory_usage.json') as data:
+    with open('tests/data/memory_usage.json') as data:
         graph = {'graphite_data': json.load(data)}
-        full_long_description = wordgraph.describe(graph)
-        assert full_long_description is not None
+        full_long_description = wordgraph.describe(graph, source='graphite')
+        expected_words = 'This data is crazy.'
+        assert full_long_description == "Hello, world"
