@@ -1,4 +1,4 @@
-This graph {% if title is defined %}{{ title }} {% endif %}shows the relationship between {{ x_axis.label }} and {{ y_axis.label }}. The x axis, {{ x_axis.label }}, ranges from {{ x_axis.min }} to {{ x_axis.max }}. The y axis, {{ y_axis.label }}, ranges from {{ y_axis.min }} to {{ y_axis.max }}. It contains {{ series | count }} series.
+This graph{% if title is defined %}, {{ title }}, {% endif %}shows the relationship between {{ x_axis.label }} and {{ y_axis.label }}. The x axis, {{ x_axis.label }}, ranges from {{ x_axis.min }} to {{ x_axis.max }}. The y axis, {{ y_axis.label }}, ranges from {{ y_axis.min }} to {{ y_axis.max }}. It contains {{ series | count }} series. 
 {% for data in series %}
     {% set series_index = loop.index %}
     {% include "en/long/" + data['distribution']|lower + "-series.txt" %}

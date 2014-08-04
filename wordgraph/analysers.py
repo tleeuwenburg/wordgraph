@@ -117,15 +117,15 @@ class NormalDistribution(FixedIntervalAnalyser):
         What proportion of the total area covered by the graph
         is to the left of this x value?
         """
-        return NotImplementedError()
+        raise NotImplementedError()
 
 
-    def x_value_at(proportion):
+    def x_value_at(self, proportion):
         """
         What is the x value which places this proportion of
         the graph to the left of this place?
         """
-        return NotImplementedError()
+        raise NotImplementedError()
 
     def _estimate_stddev(self):
         """
@@ -162,7 +162,7 @@ class NormalDistribution(FixedIntervalAnalyser):
         We will assume the X values start at 0 and increment by 1
         for each point in the series.
         """
-        self.mean = self.x_value_at(cumulative=.5)
+        self.mean = self.x_value_at(.5)
         self.stddev = self._estimate_stddev()
         ideal_points = self.generate_idealised_normal()
         badness = set()
@@ -190,7 +190,7 @@ class RandomDistribution(FixedIntervalAnalyser):
         return dict()  # nothing meaningful
 
 
-_analysers = [NormalDistribution,
+_analysers = [#NormalDistribution,
         RandomDistribution,
         LinearDistribution]
 
@@ -201,7 +201,7 @@ def get_best_analyser(values):
     which suits this data best.
     """
     candidates = sorted(
-            (analyser(values=values) for analyser in _analysers),
+            (analyser(values) for analyser in _analysers),
             key=lambda a: a.get_validity())
     print([str(c) for c in candidates])
     return candidates[-1]
@@ -224,7 +224,7 @@ def get_analysis(points):
         return dict(name="Unprocessable",
                 result=str(ex))
     y_values = [point.y for point in sorted(points)]
-    analyser = get_best_analyser(points = points)
+    analyser = get_best_analyser(points)
     return dict(p_value=analyser.get_validity(),
             name=analyser.name,
             min_y_value=min(y_values),
