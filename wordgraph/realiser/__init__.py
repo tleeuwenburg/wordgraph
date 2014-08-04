@@ -25,9 +25,15 @@ If you use the realiser classes directly then you will probably be interested in
 
 """
 from jinja2 import Environment, PackageLoader
-
+from num2words import num2words
 
 env = Environment(loader=PackageLoader('wordgraph.realiser', 'templates'))
+
+
+def num_to_word(data):
+    number = int(data)
+    return num2words(number, ordinal=True)
+env.filters['num_to_word'] = num_to_word
 
 
 def english(graph):

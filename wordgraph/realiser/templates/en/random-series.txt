@@ -1,1 +1,0 @@
-The data shows no clear distribution and may be {{ series[0].distribution }}. The minimum y value is {{ series[0].min_y_value }}
