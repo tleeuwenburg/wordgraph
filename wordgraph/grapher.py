@@ -18,7 +18,8 @@ def generic():
 
 class Graph():
 
-    pass
+    def as_dict(self):
+        raise NotImplementedError
 
 
 class AutoGraph(Graph):
@@ -28,3 +29,58 @@ class AutoGraph(Graph):
         self.raw_data = raw_data
 
         return
+
+class GraphiteGraph(Graph):
+
+    def __init__(self):
+
+        self.defaults = {
+            'title': None,
+            'x_axis': {
+                'label': 'time',
+            },
+            'y_axis': {
+                'label': 'load',
+            },
+            "series": []
+
+        }
+
+    def auto_ingest(self, raw_data):
+        '''
+        Stores the raw data into self.raw_data
+        Stores structured data into self.processed_data
+        Creates the response for as_dist ad self.result
+        '''
+
+        self.raw_data = raw_data
+        self.result_dict = self.defaults.copy()
+
+
+    def as_dict(self):
+
+        return self.result_dict.copy()
+
+    def _parse_keys(self):
+        pass
+
+    def _create_series(self):
+
+        series_name = self.raw_data['target']
+        values = self.raw_data['datapoints']
+        series = analysers.get_analysis(values)
+
+        series_dict = {
+            "name": series_name,
+            "distribution": series.distribution,
+            "fit": series.fit,
+
+        }
+
+        self.d['series'].append(series_dict)
+        
+
+
+
+
+
