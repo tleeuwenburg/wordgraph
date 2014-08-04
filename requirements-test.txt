@@ -1,4 +1,6 @@
 execnet==1.2.0
+Jinja2==2.7.3
+MarkupSafe==0.23
 py==1.4.22
 pytest==2.6.0
 pytest-xdist==1.10
