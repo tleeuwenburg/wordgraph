@@ -12,18 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import realiser_cases
 
-def test_basic_realiser():
-    
-    input_case = realiser_cases.no_data_case
+def english(graph):
 
-    short_description_expected = input_case.title
-    long_description_expected = ''
-    structured_parts_expected = {}
+    r = Realiser()
+    text = r.long_description()
+    return text
 
-    r = realiser.English(input_case)
+class Realiser():
 
-    assert r.short() == short_description_expected
-    assert r.long() == long_description_expected
-    assert r.parts() == structured_parts_expected
+    def long_description(self):
+        return None
+
+
+class English(Realiser):
+    pass
+
+class Spanish(Realiser):
+    pass
