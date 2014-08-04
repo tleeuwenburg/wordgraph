@@ -1,3 +1,4 @@
 *.pyc
 .venv
 env
+docs/_build
