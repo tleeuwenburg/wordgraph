@@ -18,6 +18,8 @@ import pytest
 
 import wordgraph
 
+from tests.lib.compare import assertParagraph
+
 def test_graphite_documentation():
     """Verify description of Graphite JSON response from Graphite docs.
 
@@ -50,10 +52,20 @@ def test_graphite_documentation():
         'The entriesseries is loosely linear', #TODO: missing space in this sentence
         ]
 
-    found_sents = [s.strip() for s in full_long.split('. ') if s != '']
+    expected = '''
+    This graph, None, shows the relationship between time and metric.
+    The x axis, time, ranges from 1311836008 to 1311836012.
+    The y axis, metric, ranges from 1.0 to 6.0'.
+    It contains 1 series'.
+    The entriesseries is loosely linear'
+    '''
 
-    for expected, found in zip(expected_sents, found_sents):
-        assert expected == found, "\n%s\n%s " % (expected, found)
+    assertParagraph(full_long, expected)
+
+    # found_sents = [s.strip() for s in full_long.split('. ') if s != '']
+
+    # for expected, found in zip(expected_sents, found_sents):
+    #     assert expected == found, "\n%s\n%s " % (expected, found)
 
 
 def test_server_requests():
