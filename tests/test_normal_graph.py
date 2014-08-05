@@ -19,6 +19,38 @@ from scipy.stats import norm
 from wordgraph import analysers
 from wordgraph.points import Point
 
+
+@pytest.mark.parametrize(["y_values", "expected"],
+        [([10, 10, 10, 10], 0),
+         ([10, 15, 15, 10], 10),
+         ([10, 20, 15, 10], 15)])
+def test_total_size(y_values, expected):
+    points = [Point(i, y) for i, y in enumerate(y_values)]
+    nd = analysers.NormalDistribution(points=points)
+    assert expected == nd.total_size
+
+
+@pytest.mark.parametrize(["proportion", "expected"],
+        [(0, -5),
+         (.5, 1)])
+def test_x_value_at(proportion, expected):
+    points = [Point(-5, 10),
+              Point(-1, 15),
+              Point(3, 15),
+              Point(7, 10)]
+    nd = analysers.NormalDistribution(points=points)
+    assert expected == nd.x_value_at(proportion)
+
+
+@py.test.mark.xfail
+def test_zeroes():
+    points = [Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0)]
+    nd = analysers.NormalDistribution(points=points)
+    validity = nd.get_validity()
+    assert False, validity
+
+
+
 @py.test.mark.xfail #TODO: I don't know what this is supposed to do!
 @pytest.mark.parametrize(["mean", "stddev", "offset"],
         [(0, 1, 0),
