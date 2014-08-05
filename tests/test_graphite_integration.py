@@ -15,13 +15,11 @@
 "Test of the Graphite JSON response object."
 import json
 import pytest
+import py
 
 import wordgraph
-
 from tests.lib.compare import assertParagraph
 
-import py
-@py.test.mark.xfail
 def test_graphite_documentation():
     """Verify description of Graphite JSON response from Graphite docs.
 
@@ -48,7 +46,7 @@ def test_graphite_documentation():
     full_long = wordgraph.describe(graph, source='graphite')
     expected_sents = [
         'This graph shows the relationship between time and metric',
-        'The x axis, time, ranges from 1311836008 to 1311836012',
+        'The x axis, time, ranges from 28 Jul 2011 06:53:28 to 28 Jul 2011 06:53:32',
         'The y axis, metric, ranges from 1.0 to 6.0',
         'It contains 1 series',
         'The entries series is loosely linear', 
@@ -60,7 +58,6 @@ def test_graphite_documentation():
         assert expected == found, "\n%s\n%s " % (expected, found)
 
 
-@pytest.mark.xfail
 def test_titled_graphite_documentation():
     """Verify description of Graphite JSON response from Graphite docs for titled graph.
 
@@ -83,20 +80,13 @@ def test_titled_graphite_documentation():
              'graphite_data': graphite_data}
 
     full_long = wordgraph.describe(graph, source='graphite')
-    expected_sents = [
-        'This graph, Metric Over Time, shows the relationship between time and metric',
-        'The x axis, time, ranges from 1311836008 to 1311836012',
-        'The y axis, metric, ranges from 1.0 to 6.0',
-        'It contains 1 series',
-        'The entries series is loosely linear', 
-        ]
 
     expected = '''
-    This graph, None, shows the relationship between time and metric.
-    The x axis, time, ranges from 1311836008 to 1311836012.
-    The y axis, metric, ranges from 1.0 to 6.0'.
-    It contains 1 series'.
-    The entriesseries is loosely linear'
+    This graph, Metric Over Time, shows the relationship between time and metric.
+    The x axis, time, ranges from 28 Jul 2011 06:53:28 to 28 Jul 2011 06:53:32.
+    The y axis, metric, ranges from 1.0 to 6.0.
+    It contains 1 series.
+    The entries series is loosely linear
     '''
 
     assertParagraph(full_long, expected)
@@ -128,7 +118,7 @@ def test_memory_usage():
         full_long = wordgraph.describe(graph, source='graphite')
         expected_sents = [
             'This graph shows the relationship between time and metric',
-            'The x axis, time, ranges from 1407123600 to 1407124440',
+            'The x axis, time, ranges from 04 Aug 2014 03:40:00 to 04 Aug 2014 03:54:00',
             'The y axis, metric, ranges from 44736512.0 to 671047680.0',
             'It contains 1 series'
         ]
