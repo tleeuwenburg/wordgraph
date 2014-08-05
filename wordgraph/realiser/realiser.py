@@ -57,7 +57,10 @@ class Realiser(object):
 
     """
     def __init__(self, data):
-        self._data = data
+        self._data = {}
+        for k, v in data.items():
+            if v != None:
+                self._data[k] = v
 
     @property
     def data(self):
