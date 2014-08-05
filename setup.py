@@ -18,7 +18,12 @@ setup(
     description=("Produce a lexical description of graphs"),
     license = "Apache2",
     keywords = "python3",
-    packages=['wordgraph', 'tests'],
+    package_data={
+        'wordgraph': [
+            'realiser/templates/en/long/*.txt',
+        ]
+    },
+    packages=['wordgraph', 'wordgraph.realiser', 'tests'],
     install_requires=[
         'setuptools',
     ],
