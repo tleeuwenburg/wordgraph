@@ -1,12 +1,12 @@
 expected = {
-    "title": None,
+    "title": "server requests",
     "x_axis": {
         "label": "time",
         "min": 1407117910,
         "max": 1407118800
     },
     "y_axis": {
-        "label": "metric",
+        "label": "requests per second",
         "min": 0,
         "max": 37.300000000000004
     },

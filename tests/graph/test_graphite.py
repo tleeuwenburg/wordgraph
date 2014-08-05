@@ -36,7 +36,11 @@ def test_server_requests_graph_structure():
     expected_data = tests.data.server_requests.expected
     
     graph = grapher.GraphiteGraph()
-    graphDict = {'graphite_data': graphite_data}
+    graphDict = {
+            'title': 'server requests',
+            'y_axis': {'label': 'requests per second'},
+            'graphite_data': graphite_data
+    }
     graph.auto_ingest(graphDict)
     structure = graph.as_dict()
 

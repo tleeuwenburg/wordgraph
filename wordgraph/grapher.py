@@ -67,8 +67,14 @@ class GraphiteGraph(Graph):
         for series in self.raw_data['graphite_data']:
             self._create_series(series)
 
-        if 'title' in raw_data:
-            self.result_dict['title'] = raw_data['title']
+        # set values from raw data keys
+        for key in ('title',):
+            if key in raw_data:
+                self.result_dict[key] = raw_data[key]
+        # merge dicts from raw data keys
+        for key in ('x_axis', 'y_axis'):
+            if key in raw_data:
+                self.result_dict[key].update(raw_data[key])
 
     def as_dict(self):
 
