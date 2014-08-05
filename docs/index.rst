@@ -9,12 +9,6 @@
 
    api
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`   
 
 This is a thing that supports creating English-language text from a graph description. 
 ======================================================================================
