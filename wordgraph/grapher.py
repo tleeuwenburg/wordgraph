@@ -77,7 +77,6 @@ class GraphiteGraph(Graph):
                 self.result_dict[key].update(raw_data[key])
 
     def as_dict(self):
-
         return self.result_dict.copy()
 
     def _create_series(self, series):
@@ -86,16 +85,25 @@ class GraphiteGraph(Graph):
         self._update_extremes(values)
         analysis = analysers.get_analysis(values)
 
-        series_dict = {
-            "name": series['target'],
-            "distribution": analysis['name'],
-            "min_y_value": analysis['min_y_value'],
-            "fit": analysis['p_value'],
-            "start_value": {"x": values[0].x, "y": values[0].y},
-            "end_value": {"x": values[-1].x, "y": values[-1].y}
-        }
+        if analysis['name'] == analysers.UNPROCESSABLE:
+            self.result_dict = analysis
+        else:
+            if len(values) == 1:
+                distribution_name = 'single-point'
+            else:
+                distribution_name = analysis['name']
 
-        self.result_dict['series'].append(series_dict)
+            series_dict = {
+                "name": series['target'],
+                "distribution": distribution_name,
+                "min_y_value": analysis['min_y_value'],
+                "fit": analysis['p_value'],
+                "start_value": {"x": values[0].x, "y": values[0].y},
+                "end_value": {"x": values[-1].x, "y": values[-1].y},
+                "num_values": len(values)
+            }
+
+            self.result_dict['series'].append(series_dict)
 
     def _update_extremes(self, values):
 

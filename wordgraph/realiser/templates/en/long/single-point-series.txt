@@ -1,0 +1,1 @@
+The {% if data.name is defined %}{{ data.name }}{% else %}{{ series_index|num_to_word }}{% endif %} series is a single point, with value {{ y_axis.min }} at {{ x_axis.label }} {{ x_axis.min }}.

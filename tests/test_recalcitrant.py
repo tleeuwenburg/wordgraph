@@ -17,38 +17,133 @@
 from wordgraph.points import Point
 import wordgraph
 
-import random
+import json
 import pytest
 import py
 
-from .utilities import EPOCH_START, to_graphite_metric
+from tests.lib.compare import assertParagraph
 
-@py.test.mark.xfail #TODO: Get aaron to fix this
+
 def test_time_goes_backwards():
-    "A valid time series where time changes linearly backwards"
-    values = [1.0] * 10
-    times = (EPOCH_START-i for i in range(10))
-    graph = {'datapoints': [Point(x=t, y=v) for (v, t) in zip(values, times)]}
-    full_long = wordgraph.describe(graph)
-    assert full_long is not None
-
-@py.test.mark.xfail #TODO: Get aaron to fix this
-def test_random_graphite_metric():
-    "A time series of 50 data points where every value is random"
-    rng = random.Random(0)
-    values = [rng.random() for i in range(50)]
-    graph = to_graphite_metric(values)
-    full_long = wordgraph.describe(graph, source='graphite')
-    assert full_long is not None
-
-@py.test.mark.xfail #TODO: Get aaron to fix this
-def test_too_few_points():
-    """A time series with too few data points to be analysed.
-
-    Expected to raise an exception.
     """
-    with pytest.raises(ValueError):
-        full_long = wordgraph.describe([Point(x=0, y=0)])
+    A valid time series where time changes linearly backwards.
+
+    Since it's a time series, we expect that we can sort it by time and present in order.
+    This will not be true for arbitrary graphs.
+    """
+    graphite_data = json.loads("""
+[{
+  "target": "entries",
+  "datapoints": [
+    [1.0, 1311836012],
+    [2.0, 1311836011],
+    [3.0, 1311836010],
+    [5.0, 1311836009],
+    [6.0, 1311836008]
+  ]
+}]
+    """)
+
+    graph = {'graphite_data': graphite_data}
+    full_long = wordgraph.describe(graph, source='graphite')
+    expected = '''
+    This graph shows the relationship between time and metric.
+    The x axis, time, ranges from 1311836008 to 1311836012.
+    The y axis, metric, ranges from 1.0 to 6.0.
+    It contains 1 series.
+    The entries series is loosely linear
+    '''
+
+    assertParagraph(full_long, expected)
+
+
+def test_random_graphite_metric():
+    "A time series of points where the time is randomly ordered"
+    graphite_data = json.loads("""
+[{
+  "target": "entries",
+  "datapoints": [
+    [6.0, 1311836008],
+    [1.0, 1311836012],
+    [3.0, 1311836010],
+    [2.0, 1311836011],
+    [5.0, 1311836009]
+  ]
+}]
+    """)
+
+    graph = {'graphite_data': graphite_data}
+    full_long = wordgraph.describe(graph, source='graphite')
+    expected = '''
+    This graph shows the relationship between time and metric.
+    The x axis, time, ranges from 1311836008 to 1311836012.
+    The y axis, metric, ranges from 1.0 to 6.0.
+    It contains 1 series.
+    The entries series is loosely linear
+    '''
+
+    assertParagraph(full_long, expected)
+
+
+def test_no_points():
+    """A time series no data points."""
+    graphite_data = json.loads("""
+[{
+  "target": "entries",
+  "datapoints": []
+}]
+    """)
+
+    graph = {'graphite_data': graphite_data}
+    full_long = wordgraph.describe(graph, source='graphite')
+    expected = '''Graph invalid, because it contains no data points!'''
+
+    assertParagraph(full_long, expected)
+
+@py.test.mark.foo
+def test_single_point():
+    """A time series with a single data point."""
+    graphite_data = json.loads("""
+[{
+  "target": "entries",
+  "datapoints": [
+    [1.0, 1311836012]
+  ]
+}]
+    """)
+
+    graph = {'graphite_data': graphite_data}
+    full_long = wordgraph.describe(graph, source='graphite')
+    expected = '''
+    This graph shows the relationship between time and metric. 
+    The entries series is a single point, with value 1.0 at time 1311836012.
+    '''
+
+    assertParagraph(full_long, expected)
+
+def test_two_points():
+    """A time series with two data points."""
+    graphite_data = json.loads("""
+[{
+  "target": "entries",
+  "datapoints": [
+    [1.0, 1311836012],
+    [2.0, 1311836009]
+  ]
+}]
+    """)
+
+    graph = {'graphite_data': graphite_data}
+    full_long = wordgraph.describe(graph, source='graphite')
+    expected = '''
+    This graph shows the relationship between time and metric.
+    The x axis, time, ranges from 1311836009 to 1311836012.
+    The y axis, metric, ranges from 1.0 to 2.0.
+    It contains 1 series.
+    The entries series is broadly linear
+    '''
+
+    assertParagraph(full_long, expected)
 
 @py.test.mark.xfail #TODO: Get aaron to fix this
 def test_nonuniform_time_periods():
@@ -60,3 +155,5 @@ def test_nonuniform_time_periods():
     graph = {'data_points': [Point(x=t, y=1.0) for t in times]}
     with pytest.raises(ValueError):
         full_long = wordgraph.describe(graph)
+
+

@@ -81,13 +81,26 @@ class English(Realiser):
 
 
     """
+    def _single_data_series_with_one_point(self, data):
+        for i, item in enumerate(data['series']):
+            if item['num_values'] > 1 or i > 0:
+                return False
+        return True
+
     def long(self):
         """
         Returns the str long description using one of the
         ``templates/en/long-*.txt`` templates.
         """
         data = self._data
-        template = env.get_template("en/long/desc.txt")
+        if 'name' in data and data['name'] == "Unprocessable":
+            return "Graph invalid, because %s" % data["result"]
+        elif self._single_data_series_with_one_point(data):
+            # If there's only one series and it consists of a single point, skip the part where we explain what the range of the data is, as it's meaningless. 
+            template = env.get_template("en/long/single-point.txt")
+        else:
+            # But if there's more than one series, suddenly the range etc becomes relevant again, even if one of the series consists of a single data point.
+            template = env.get_template("en/long/desc.txt")
         return template.render(data)
 
     def short(self):
@@ -97,7 +110,12 @@ class English(Realiser):
         """
 
         data = self._data
-        template = env.get_template("en/short/desc.txt")
+        if 'name' in data and data['name'] == "Unprocessable":
+            return "Graph may be invalid, because %s" % data["result"]
+        elif self._single_data_series_with_one_point(data):
+            template = env.get_template("en/short/single-point.txt")
+        else:
+            template = env.get_template("en/short/desc.txt")
         return template.render(data)
 
 

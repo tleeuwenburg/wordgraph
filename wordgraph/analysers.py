@@ -38,6 +38,7 @@ between consecutive points is constant.
 
 """
 
+UNPROCESSABLE = "Unprocessable"
 
 import statistics
 from scipy import stats
@@ -159,7 +160,9 @@ class NormalDistribution(FixedIntervalAnalyser):
         Sample the cumulative distribution at a number of points,
         and use that to estimate the standard deviation
         """
-        assert self.mean is not None
+        if self.mean == None:
+            # There might be only a single element
+            return 0
         result = ((self.mean - self.x_value_at(.015)) / 2 +
                   (self.mean - self.x_value_at(.16)) +
                   (self.x_value_at(.83) - self.mean) +
@@ -244,19 +247,22 @@ def get_best_analyser(values):
 
 def assert_fixed_interval(points):
     x_values = sorted(point.x for point in points)
-    if len(x_values) <= 1:
-        raise ValueError("Not enough data points!")
-    expected_interval_size = (x_values[-1] - x_values[0]) / (len(x_values) - 1)
-    for left, right in zip(x_values, x_values[1:]):
-        if abs(1 - ((right - left) / expected_interval_size)) > 0.01:
-           raise ValueError("Intervals on the X axis are not fixed width")
+    if len(x_values) < 1:
+        raise ValueError("it contains no data points!")
+    if len(x_values) == 1:
+        pass
+    else:
+        expected_interval_size = (x_values[-1] - x_values[0]) / (len(x_values) - 1)
+        for left, right in zip(x_values, x_values[1:]):
+            if abs(1 - ((right - left) / expected_interval_size)) > 0.01:
+               raise ValueError("Intervals on the X axis are not fixed width")
 
 
 def get_analysis(points):
     try:
         assert_fixed_interval(points=points)
     except ValueError as ex:
-        return dict(name="Unprocessable",
+        return dict(name=UNPROCESSABLE,
                 result=str(ex))
     y_values = [point.y for point in sorted(points)]
     analyser = get_best_analyser(points)
