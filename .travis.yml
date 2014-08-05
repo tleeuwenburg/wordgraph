@@ -2,8 +2,13 @@ language: python
 python:
 - '3.4'
 virtualenv:
-    system_site_packages: true
+    system_site_packages: false
 before_install:
    - sudo apt-get install -qq python3-numpy python3-scipy
-install: pip install -r requirements-test.txt
-script: tox
+env:
+   - TOX_ENV=py27
+   - TOX_ENV=pytest
+install:
+   - pip install mercurial
+   - pip install -r requirements-test.txt
+script: tox -e $TOX_ENV
