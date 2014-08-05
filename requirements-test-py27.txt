@@ -9,3 +9,4 @@ tox==1.7.2
 virtualenv==1.11.6
 scipy
 numpy
+-e hg+https://bitbucket.org/tiran/backports.statistics#egg=backports
