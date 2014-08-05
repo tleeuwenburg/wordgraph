@@ -6,16 +6,8 @@
 .. toctree::
    :maxdepth: 2
 
-API
----
 
-.. automodule:: wordgraph
-   :members:
-   :undoc-members:
-
-.. automodule:: wordgraph.describer
-   :members:
-   :undoc-members:
+   api
 
 Indices and tables
 ==================
@@ -25,7 +17,7 @@ Indices and tables
 * :ref:`search`   
 
 This is a thing that supports creating English-language text from a graph description. 
-============
+======================================================================================
 
 Why
 ---
