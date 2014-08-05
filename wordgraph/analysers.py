@@ -114,13 +114,6 @@ class NormalDistribution(FixedIntervalAnalyser):
                         proportion_across * (right_point.y - left_point.y))
         assert False, "Fallen off the end of the graph"
 
-    def _cumulative_at(self, x_value):
-        """
-        What proportion of the total area covered by the graph
-        is to the left of this x value?
-        """
-        raise NotImplementedError()
-
     @property
     def total_size(self):
         if self._total_size is None:
@@ -134,7 +127,6 @@ class NormalDistribution(FixedIntervalAnalyser):
                 else:
                     self._cumulative_size[point.x] = self._cumulative_size[previous_point.x] + .5 * (point.x - previous_point.x) * (max(point.y, previous_point.y) - min(point.y, previous_point.y)) + (min(point.y, previous_point.y) - self._minimum_y)
                 previous_point = point
-            print(self._cumulative_size)
             self._total_size = self._cumulative_size[point.x]
         return self._total_size
 
@@ -162,12 +154,11 @@ class NormalDistribution(FixedIntervalAnalyser):
         and use that to estimate the standard deviation
         """
         assert self.mean is not None
-        return (
-                (self.mean - self.x_value_at(.015)) / 2 +
-                (self.mean - self.x_value_at(.16)) +
-                (self.x_value_at(.83) - self.mean) +
-                (self.x_value_at(.985) - self.mean) / 2
-                ) / 4
+        result = ((self.mean - self.x_value_at(.015)) / 2 +
+                  (self.mean - self.x_value_at(.16)) +
+                  (self.x_value_at(.83) - self.mean) +
+                  (self.x_value_at(.985) - self.mean) / 2) / 4
+        return result
 
 
     def generate_idealised_normal(self):
@@ -193,16 +184,25 @@ class NormalDistribution(FixedIntervalAnalyser):
         """
         self.mean = self.x_value_at(.5)
         self.stddev = self._estimate_stddev()
-        ideal_points = self.generate_idealised_normal()
-        badness = set()
-        n_dev = -3
-        while n_dev <= 3:
-            #badness.add(abs(cnd(n_dev) -
-            n_dev += .05
+        y_scale = max(point.y for point in self.points) \
+            - min(point.y for point in self.points)
+        if self.stddev == 0:
+            return 0
+        ideal_cumulative = dict((point.x,
+            stats.norm.cdf((point.x - self.mean) / self.stddev))
+            for point in self.points)
+        devtest = [(point.x, ideal_cumulative[point.x],
+            (self._cumulative_size[point.x] / self.total_size),
+            y_scale) for point in self.points]
+
+        deviations = [(point.x, abs(ideal_cumulative[point.x] -
+            (self._cumulative_size[point.x] / self.total_size))
+            ) for point in self.points]
+        average_deviation = sum(abs(d[1]) for d in deviations) / len(self.points)
+        return abs(1 - average_deviation)
 
     def get_result(self):
-        return dict(mean=statistics.mean(self.values),
-                stdev=statistics.stdev(self.values))
+        return dict(mean=self.mean, stdev=self.stddev)
 
 
 class RandomDistribution(FixedIntervalAnalyser):
@@ -219,7 +219,7 @@ class RandomDistribution(FixedIntervalAnalyser):
         return dict()  # nothing meaningful
 
 
-_analysers = [#NormalDistribution,
+_analysers = [NormalDistribution,
         RandomDistribution,
         LinearDistribution]
 
@@ -232,6 +232,7 @@ def get_best_analyser(values):
     candidates = sorted(
             (analyser(values) for analyser in _analysers),
             key=lambda a: a.get_validity())
+    print([str(c) for c in candidates])
     return candidates[-1]
 
 
