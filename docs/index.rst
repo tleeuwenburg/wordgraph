@@ -6,6 +6,17 @@
 .. toctree::
    :maxdepth: 2
 
+API
+---
+
+.. automodule:: wordgraph
+   :members:
+   :undoc-members:
+
+.. automodule:: wordgraph.describer
+   :members:
+   :undoc-members:
+
 Indices and tables
 ==================
 
