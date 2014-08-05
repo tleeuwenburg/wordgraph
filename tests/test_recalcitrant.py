@@ -84,8 +84,6 @@ def test_random_graphite_metric():
 
     assertParagraph(full_long, expected)
 
-
-@py.test.mark.xfail  #TODO: This actually has an exception
 def test_no_points():
     """A time series no data points."""
     graphite_data = json.loads("""

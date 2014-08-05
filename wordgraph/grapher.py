@@ -136,11 +136,12 @@ class GraphiteGraph(Graph):
     def as_dict(self):
 
         readable_dict = self.result_dict.copy()
-        readable_dict['x_axis']['max'] = self._to_readable_date(readable_dict['x_axis']['max'])
-        readable_dict['x_axis']['min'] = self._to_readable_date(readable_dict['x_axis']['min'])
-        for item in readable_dict['series']:
-            item['start_value']['x'] = self._to_readable_date(item['start_value']['x'])
-            item['end_value']['x'] = self._to_readable_date(item['end_value']['x'])
+        if readable_dict.get('name', None) != analysers.UNPROCESSABLE:
+            readable_dict['x_axis']['max'] = self._to_readable_date(readable_dict['x_axis']['max'])
+            readable_dict['x_axis']['min'] = self._to_readable_date(readable_dict['x_axis']['min'])
+            for item in readable_dict['series']:
+                item['start_value']['x'] = self._to_readable_date(item['start_value']['x'])
+                item['end_value']['x'] = self._to_readable_date(item['end_value']['x'])
         return readable_dict
 
     def _to_readable_date(self, datestring):
