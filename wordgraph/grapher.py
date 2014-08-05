@@ -69,6 +69,23 @@ class AutoGraph(Graph):
 
         return
 
+class MPLGraph(AutoGraph):
+
+    def auto_ingest(self, fig):
+
+        # import ipdb; ipdb.set_trace()
+        self.fig = fig
+        self.axes = fig.gca()
+
+        d = {}
+        self.data_dict = d
+
+        d['title'] = self.axes.title.get_text()
+        
+
+    def as_dict(self):
+        return self.data_dict
+
 class GraphiteGraph(Graph):
     '''
     Expects data as produced by the "graphite" web application.
