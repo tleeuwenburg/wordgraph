@@ -3,3 +3,6 @@
 env
 *.egg-info
 docs/_build
+src/
+*~
+.vagrant

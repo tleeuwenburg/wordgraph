@@ -17,7 +17,8 @@ from . import analysers
 from . import realiser
 
 GRAPH_TYPES = {
-    'graphite': grapher.GraphiteGraph
+    'graphite': grapher.GraphiteGraph,
+    'matplotlib': grapher.MPLGraph
 }
 
 def describe(data, source=None, language='English', demographic='summary'):

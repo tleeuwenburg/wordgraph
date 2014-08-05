@@ -12,6 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+'''
+This module just contains a simple class for representing cartesian points. 
+
+It contains the Point class, and even that is just a named tuple!
+'''
+
+
 from collections import namedtuple
 
 class Point(namedtuple('BasePoint', ['x', 'y'])):

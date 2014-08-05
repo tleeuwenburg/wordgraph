@@ -40,7 +40,11 @@ between consecutive points is constant.
 
 UNPROCESSABLE = "Unprocessable"
 
-import statistics
+try:
+    import statistics
+except ImportError:
+    import backports.statistics as statistics
+
 from scipy import stats
 import numpy as np
 

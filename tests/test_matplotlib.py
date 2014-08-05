@@ -15,8 +15,6 @@
 import wordgraph
 import py
 
-
-
 @py.test.mark.xfail
 def test_basic_matplotlib():
 
@@ -41,6 +39,7 @@ def test_basic_matplotlib():
     plt.xlabel('Performance')
     plt.title('How fast do you want to go today?')
 
-    text = wordgraph.describe(plt, source='matplotlib')
+    # This gets the current figure from pyplot
+    text = wordgraph.describe(plt.gcf(), source='matplotlib')
     assert text is not None
     

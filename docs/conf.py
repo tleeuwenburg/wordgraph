@@ -15,10 +15,20 @@
 import sys
 import os
 
+# Import mock object for mocking out modules from external dependencies
+try:
+    from mock import MagicMock as Mock
+except ImportError:
+    from unittest.mock import MagicMock as Mock
+
+# Mock out modules from external package dependencies
+MOCK_MODULES = ['matplotlib', 'numpy', 'scipy', 'statistics', 'num2words']
+sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('..'))
 
 # -- General configuration ------------------------------------------------
 
@@ -28,7 +38,7 @@ import os
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = []
+extensions = ['sphinx.ext.autodoc']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
