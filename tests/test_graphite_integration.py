@@ -20,6 +20,8 @@ import wordgraph
 
 from tests.lib.compare import assertParagraph
 
+import py
+@py.test.mark.xfail
 def test_graphite_documentation():
     """Verify description of Graphite JSON response from Graphite docs.
 
