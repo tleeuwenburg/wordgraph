@@ -31,6 +31,8 @@ types, supporting a wider array of input data use cases.
 
 
 import sys
+from time import gmtime
+from time import strftime
 
 from . import analysers
 from . import points
@@ -71,6 +73,8 @@ class GraphiteGraph(Graph):
     '''
     Expects data as produced by the "graphite" web application.
     '''
+
+    """Graphite is timeseries, so we know that the x-axis will always be time."""
 
     def __init__(self):
 
@@ -114,7 +118,17 @@ class GraphiteGraph(Graph):
 
     def as_dict(self):
 
-        return self.result_dict.copy()
+        readable_dict = self.result_dict.copy()
+        readable_dict['x_axis']['max'] = self._to_readable_date(readable_dict['x_axis']['max'])
+        readable_dict['x_axis']['min'] = self._to_readable_date(readable_dict['x_axis']['min'])
+        for item in readable_dict['series']:
+            item['start_value']['x'] = self._to_readable_date(item['start_value']['x'])
+            item['end_value']['x'] = self._to_readable_date(item['end_value']['x'])
+        return readable_dict
+
+    def _to_readable_date(self, datestring):
+        readable_date = gmtime(int(datestring))
+        return strftime("%d %b %Y %H:%M:%S", readable_date)
 
     def _create_series(self, series):
         '''

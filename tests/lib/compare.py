@@ -44,7 +44,7 @@ def assertDictionary(found, expected):
 
 
         assert found_value == expected_value, \
-            'Mismatch between values for %s and %s . %s %s ' % \
+                'Mismatch between values for %s and %s . Found is:\n %s\n\nExpected is:\n %s ' % \
             (found_key, expected_key, pprint.pformat(found), pprint.pformat(expected))
 
 
@@ -61,6 +61,7 @@ def assertParagraph(found, expected, strict=False):
     expected_sents = splitIntoSentences(expected)
 
     # Ignore whitespaces and just compare sentences
+    badly_broken = False
     for f, e in zip(found_sents, expected_sents):
         f = f.strip()
         e = e.strip()
