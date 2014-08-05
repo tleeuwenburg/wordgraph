@@ -22,16 +22,27 @@ from wordgraph.points import Point
         [(0, 3.5),
          (1, 10)])
 def test_perfect_linear(gradient, constant):
+    """
+    First, check we get a perfect validity score for
+    straight lines.
+    Then ensure that the analyser selector chooses
+    the LinearAnalyser for these series.
+    """
     points = [Point(i, gradient * i + constant) for i in range(20)]
     ld = analysers.LinearDistribution(points=points)
     assert ld.get_validity() == 1.0
+
+    result = analysers.get_analysis(points=points)
+    assert result["name"] == "linear"
+    assert result["p_value"] == 1.0
 
 
 def generate_fuzzy_points():
     gradient = 100
     constant = 0
     for fuzz in range(10):
-        points = [Point(i, gradient * i + constant + (.5 - (i % 2)) * fuzz) for i in range(20)]
+        points = [Point(i, gradient * i + constant + (.5 - (i % 2)) * fuzz)
+                for i in range(20)]
         yield points
 
 
