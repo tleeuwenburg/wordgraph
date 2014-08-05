@@ -32,3 +32,24 @@ The basic usage is:
 	> text = wordgraph.describe(data, source_type)
 
 For further reading, please checkout wordgraph.readthedocs.org
+
+Setup with Vagrant
+------------------
+
+If you have [vagrant](www.vagrantup.com) installed, you can just run `vagrant
+up`. By default the base Ubuntu 14.04 box is used; change it in `Vagrantfile`
+if you want to use a different box.
+
+```bash
+$ vagrant up
+$ vagrant ssh
+```
+
+You'll now be logged into a machine with all the dependencies and wordgraph
+installed in the system python:
+
+```bash
+$ python
+> import wordgraph
+>
+```
