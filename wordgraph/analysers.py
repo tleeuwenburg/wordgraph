@@ -94,6 +94,9 @@ class NormalDistribution(FixedIntervalAnalyser):
 
     name = "normal"
 
+    _total_size = None
+    _minimum_y = None
+
     def _interpolate_at(self, x_value):
         """
         Given a potentially very blocky graph, interpolate
@@ -118,13 +121,40 @@ class NormalDistribution(FixedIntervalAnalyser):
         """
         raise NotImplementedError()
 
+    @property
+    def total_size(self):
+        if self._total_size is None:
+            self._cumulative_size = dict()
+            self._minimum_y = min(point.y for point in self.points)
+
+            previous_point = None
+            for point in self.points:
+                if previous_point is None:
+                    self._cumulative_size[point.x] = 0
+                else:
+                    self._cumulative_size[point.x] = self._cumulative_size[previous_point.x] + .5 * (point.x - previous_point.x) * (max(point.y, previous_point.y) - min(point.y, previous_point.y)) + (min(point.y, previous_point.y) - self._minimum_y)
+                previous_point = point
+            print(self._cumulative_size)
+            self._total_size = self._cumulative_size[point.x]
+        return self._total_size
 
     def x_value_at(self, proportion):
         """
         What is the x value which places this proportion of
         the graph to the left of this place?
         """
-        raise NotImplementedError()
+        assert 0 <= proportion <= 1
+        target_size = self.total_size * proportion
+        sizes = sorted(self._cumulative_size.items())
+        for left, right in zip(sizes, sizes[1:]):
+            left_x, left_size = left
+            right_x, right_size = right
+            if target_size > right_size:
+                continue
+            if left_size == right_size:
+                return (right_x + left_x) / 2.
+            proportion_across = (target_size - left_size) / (right_size - left_size)
+            return left_x + (right_x - left_x) * proportion_across
 
     def _estimate_stddev(self):
         """
@@ -134,8 +164,8 @@ class NormalDistribution(FixedIntervalAnalyser):
         assert self.mean is not None
         return (
                 (self.mean - self.x_value_at(.015)) / 2 +
-                (self.mean - self.x_value_at(.16))
-                (self.x_value_at(.83) - self.mean)
+                (self.mean - self.x_value_at(.16)) +
+                (self.x_value_at(.83) - self.mean) +
                 (self.x_value_at(.985) - self.mean) / 2
                 ) / 4
 

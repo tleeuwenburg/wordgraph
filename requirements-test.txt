@@ -1,8 +1,10 @@
+-e git+git@github.com:tleeuwenburg/wordgraph.git@f1912a8239909f97f3a647a65317f6077a587170#egg=wordgraph-origin/master
 execnet==1.2.0
 num2words==0.5.1
 Jinja2==2.7.3
 MarkupSafe==0.23
-py==1.4.22
+num2words==0.5.1
+py==1.4.23
 pytest==2.6.0
 pytest-xdist==1.10
 tox==1.7.2

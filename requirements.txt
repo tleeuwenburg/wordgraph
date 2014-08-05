@@ -1,2 +1,4 @@
+-e git+git@github.com:tleeuwenburg/wordgraph.git@f1912a8239909f97f3a647a65317f6077a587170#egg=wordgraph-origin/master
 Jinja2==2.7.3
 MarkupSafe==0.23
+num2words==0.5.1
