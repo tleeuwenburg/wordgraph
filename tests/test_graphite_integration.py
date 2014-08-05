@@ -60,7 +60,7 @@ def test_graphite_documentation():
         assert expected == found, "\n%s\n%s " % (expected, found)
 
 
-@pytest.mark.foo
+@pytest.mark.xfail
 def test_titled_graphite_documentation():
     """Verify description of Graphite JSON response from Graphite docs for titled graph.
 
@@ -100,11 +100,6 @@ def test_titled_graphite_documentation():
     '''
 
     assertParagraph(full_long, expected)
-
-    # found_sents = [s.strip() for s in full_long.split('. ') if s != '']
-
-    # for expected, found in zip(expected_sents, found_sents):
-    #     assert expected == found, "\n%s\n%s " % (expected, found)
 
 
 def test_server_requests():
