@@ -44,18 +44,15 @@ def test_graphite_documentation():
     graph = {'graphite_data': graphite_data}
 
     full_long = wordgraph.describe(graph, source='graphite')
-    expected_sents = [
-        'This graph shows the relationship between time and metric',
-        'The x axis, time, ranges from 28 Jul 2011 06:53:28 to 28 Jul 2011 06:53:32',
-        'The y axis, metric, ranges from 1.0 to 6.0',
-        'It contains 1 series',
-        'The entries series is loosely linear', 
-        ]
+    expected = """
+    This graph shows the relationship between time and metric
+    The x axis, time, ranges from 28 Jul 2011 06:53:28 to 28 Jul 2011 06:53:32
+    The y axis, metric, ranges from 1.0 to 6.0
+    It contains 1 series
+    The entries series is loosely linear
+    """
 
-    found_sents = [s.strip() for s in full_long.split('. ') if s != '']
-
-    for expected, found in zip(expected_sents, found_sents):
-        assert expected == found, "\n%s\n%s " % (expected, found)
+    assertParagraph(full_long, expected)
 
 
 def test_titled_graphite_documentation():
@@ -116,14 +113,12 @@ def test_memory_usage():
     with open('tests/data/memory_usage.json') as data:
         graph = {'graphite_data': json.load(data)}
         full_long = wordgraph.describe(graph, source='graphite')
-        expected_sents = [
-            'This graph shows the relationship between time and metric',
-            'The x axis, time, ranges from 04 Aug 2014 03:40:00 to 04 Aug 2014 03:54:00',
-            'The y axis, metric, ranges from 44736512.0 to 671047680.0',
-            'It contains 1 series'
-        ]
+        expected = """
+        This graph shows the relationship between time and metric
+        The x axis, time, ranges from 04 Aug 2014 03:40:00 to 04 Aug 2014 03:54:00
+        The y axis, metric, ranges from 44736512.0 to 671047680.0
+        It contains 1 series
+        """
         
-        found_sents = [s.strip() for s in full_long.split('. ') if s != '']
+        assertParagraph(full_long, expected)
 
-        for expected, found in zip(expected_sents, found_sents):
-            assert expected == found, "\n%s\n%s " % (expected, found)
