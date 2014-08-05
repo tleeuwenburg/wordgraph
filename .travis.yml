@@ -10,5 +10,4 @@ env:
    - TOX_ENV=pytest
 install:
    - pip install mercurial
-   - pip install -r requirements-test.txt
 script: tox -e $TOX_ENV
