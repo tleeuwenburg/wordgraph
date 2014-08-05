@@ -4,7 +4,7 @@ python:
 virtualenv:
     system_site_packages: false
 before_install:
-   - sudo apt-get install -qq python3-numpy python3-scipy python-numpy python-scipy
+   - sudo apt-get install -qq python3-numpy python3-scipy blas
 env:
    - TOX_ENV=py27
    - TOX_ENV=pytest
