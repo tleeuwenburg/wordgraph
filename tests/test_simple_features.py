@@ -16,7 +16,7 @@
 "Test for artificially generated and perfect examples of graph features"
 import wordgraph
 
-from utilities import time_values
+from .utilities import time_values
 
 import py
 
