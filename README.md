@@ -49,7 +49,7 @@ You'll now be logged into a machine with all the dependencies and wordgraph
 installed in the system python:
 
 ```bash
-$ python
+$ python3
 > import wordgraph
 >
 ```
