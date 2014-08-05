@@ -61,6 +61,7 @@ def assertParagraph(found, expected, strict=False):
     expected_sents = splitIntoSentences(expected)
 
     # Ignore whitespaces and just compare sentences
+    badly_broken = False
     for f, e in zip(found_sents, expected_sents):
         f = f.strip()
         e = e.strip()
