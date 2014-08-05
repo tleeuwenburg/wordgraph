@@ -78,12 +78,18 @@ class LinearDistribution(FixedIntervalAnalyser):
     name = "linear"
 
     def get_validity(self):
-        # calculate the line of best fit
-        x = [p.x for p in self.points]
-        A = np.vstack([x, np.ones(len(x))]).T
-        result = np.linalg.lstsq(A, [p.y for p in self.points])
-        self.gradient, self.constant = result[0]
-        return 0.2  # FIXME
+        x_values = [point.x for point in self.points]
+        y_values = [point.y for point in self.points]
+        par = np.polyfit(x_values, y_values, 1, full=True)
+
+        self.gradient = par[0][0]
+        self.constant = par[0][1]
+
+        residuals = np.var([(self.gradient * point.x + self.constant - point.y)
+            for point in self.points])
+        # variance = np.var(y_values)
+        # Rsqr = np.round(1 - residuals / variance, decimals=2)
+        return 1 - residuals
 
     def get_result(self):
         return dict(gradient=self.gradient,
