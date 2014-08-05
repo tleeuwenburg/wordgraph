@@ -21,7 +21,7 @@ import random
 import pytest
 import py
 
-from utilities import EPOCH_START, to_graphite_metric
+from .utilities import EPOCH_START, to_graphite_metric
 
 @py.test.mark.xfail #TODO: Get aaron to fix this
 def test_time_goes_backwards():

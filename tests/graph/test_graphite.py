@@ -18,9 +18,10 @@ import wordgraph
 from wordgraph import grapher
 
 import py
-import pprint
 
-@py.test.mark.xfail # TODO: Get aaron to fix this
+from tests.lib import compare
+
+@py.test.mark.xfail 
 def test_server_requests_graph_structure():
     """Response data from live Graphite server filled with test data.
 
@@ -31,13 +32,14 @@ def test_server_requests_graph_structure():
     """
     with open('tests/data/server_requests.json') as data:
         graphite_data = json.load(data)
-    with open('tests/data/server_requests.graph') as data:
-        expected_data = json.load(data)
+
+    import tests.data.server_requests
+    expected_data = tests.data.server_requests.expected
+    
     graph = grapher.GraphiteGraph()
     graphDict = {'graphite_data': graphite_data}
     graph.auto_ingest(graphDict)
     structure = graph.as_dict()
 
-    if structure != expected_data:
-        pprint.pprint(structure)
-        pprint.pprint(expected_data)
+    compare.assertDictionary(structure, expected_data)
+
