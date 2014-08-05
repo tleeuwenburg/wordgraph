@@ -4,6 +4,24 @@ import pprint
 def splitIntoSentences(para, ignore_empty_lines=True):
 
     lines = [p for p in para.split('\n') if p != '']
+    sents = []
+
+    for line in lines:
+
+        if ignore_empty_lines and not line:
+            continue
+
+        line_sents = [s for s in line.split('. ') if s != '']
+        
+        for s in line_sents:
+            s = s.strip()
+            if not s:
+                continue
+            if s[-1] != '.':
+                s += '.'
+            sents.append(s)
+
+    return sents
 
 
 
@@ -39,8 +57,8 @@ def assertParagraph(found, expected, strict=False):
 
     msg += "The two paragraphs are not strictly identical"
 
-    found_sents = found.split('. ')
-    expected_sents = expected.split('. ')
+    found_sents = splitIntoSentences(found)
+    expected_sents = splitIntoSentences(expected)
 
     # Ignore whitespaces and just compare sentences
     for f, e in zip(found_sents, expected_sents):
@@ -49,7 +67,7 @@ def assertParagraph(found, expected, strict=False):
         if f == e:
             msg += '\nOK\t%s' % f
         else:
-            msg += "\nBAD\t%s \nmismatch with \n\t%s" % (f, e)
+            msg += "\nFOUND\t%s \nmismatch with \nEXPECTED\t%s" % (f, e)
             badly_broken = True
 
     msg += "\nFound >> [%s]" % (found)
