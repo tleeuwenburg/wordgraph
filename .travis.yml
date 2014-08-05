@@ -9,6 +9,5 @@ env:
    - TOX_ENV=py27
    - TOX_ENV=pytest
 install:
-   - pip install mercurial tox
+   - pip install mercurial tox 
 script: tox -e $TOX_ENV
-	
