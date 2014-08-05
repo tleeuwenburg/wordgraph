@@ -24,7 +24,7 @@ def test_graphite_documentation():
     The Graphite JSON response is for a single timeseries with five,
     monotonically increasing data points with the series name 'entries'.
 
-    There is not graph title for the response.
+    There is no graph title for the response.
     """
     graphite_data = json.loads("""
 [{
@@ -43,11 +43,48 @@ def test_graphite_documentation():
 
     full_long = wordgraph.describe(graph, source='graphite')
     expected_sents = [
-        'This graph, None, shows the relationship between time and metric',
+        'This graph shows the relationship between time and metric',
         'The x axis, time, ranges from 1311836008 to 1311836012',
         'The y axis, metric, ranges from 1.0 to 6.0',
         'It contains 1 series',
-        'The entriesseries is loosely linear', #TODO: missing space in this sentence
+        'The entries series is loosely linear', 
+        ]
+
+    found_sents = [s.strip() for s in full_long.split('. ') if s != '']
+
+    for expected, found in zip(expected_sents, found_sents):
+        assert expected == found, "\n%s\n%s " % (expected, found)
+
+
+@pytest.mark.foo
+def test_titled_graphite_documentation():
+    """Verify description of Graphite JSON response from Graphite docs for titled graph.
+
+    Same as test_graphite_documentation, but graph has title.
+    """
+    graphite_data = json.loads("""
+[{
+  "target": "entries",
+  "datapoints": [
+    [1.0, 1311836008],
+    [2.0, 1311836009],
+    [3.0, 1311836010],
+    [5.0, 1311836011],
+    [6.0, 1311836012]
+  ]
+}]
+    """)
+
+    graph = {'title': 'Metric Over Time', 
+             'graphite_data': graphite_data}
+
+    full_long = wordgraph.describe(graph, source='graphite')
+    expected_sents = [
+        'This graph, Metric Over Time, shows the relationship between time and metric',
+        'The x axis, time, ranges from 1311836008 to 1311836012',
+        'The y axis, metric, ranges from 1.0 to 6.0',
+        'It contains 1 series',
+        'The entries series is loosely linear', 
         ]
 
     found_sents = [s.strip() for s in full_long.split('. ') if s != '']
@@ -81,7 +118,7 @@ def test_memory_usage():
         graph = {'graphite_data': json.load(data)}
         full_long = wordgraph.describe(graph, source='graphite')
         expected_sents = [
-            'This graph, None, shows the relationship between time and metric',
+            'This graph shows the relationship between time and metric',
             'The x axis, time, ranges from 1407123600 to 1407124440',
             'The y axis, metric, ranges from 44736512.0 to 671047680.0',
             'It contains 1 series'
