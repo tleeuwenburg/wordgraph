@@ -21,7 +21,6 @@ import py
 
 from tests.lib import compare
 
-@py.test.mark.xfail 
 def test_server_requests_graph_structure():
     """Response data from live Graphite server filled with test data.
 
