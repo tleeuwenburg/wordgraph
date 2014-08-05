@@ -3,6 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. toctree::
+   :maxdepth: 2
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`   
+
 This is a thing that supports creating English-language text from a graph description. 
 ============
 
@@ -41,12 +51,4 @@ The basic usage is:
 For further reading, please checkout wordgraph.readthedocs.org
 Contents:
 
-.. toctree::
-   :maxdepth: 2
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
