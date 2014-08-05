@@ -6,7 +6,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 SHELL = "#!/bin/bash
 apt-get install -y --force-yes libblas-dev liblapack-dev gfortran
-apt-get install -y --force-yes python3-pip python3-dev
+apt-get install -y --force-yes python3-pip python3-dev python3-scipy
 (
 	cd /wordgraph
 	pip3 install distutils
