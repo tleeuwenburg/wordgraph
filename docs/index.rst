@@ -24,7 +24,7 @@ Are passed through *wordgraph*, it generates the following description:
 
     "This graph shows the relationship between time and metric. The x axis,
     time, ranges from 04 Aug 2014 02:05:10 to 04 Aug 2014 02:20:00. The y axis,
-    metric, ranges from 0 to 37.300000000000004. It contains 4 series."
+    metric, ranges from 0 to 37.3. It contains 4 series."
 
     -- Wordgraph, 5 August 2014 (some obvious room for improvement)
 
