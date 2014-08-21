@@ -1,10 +1,11 @@
 language: python
 python:
    - 2.7
+   - 3.4
 virtualenv:
     system_site_packages: true
 before_install:
-   - sudo apt-get install -qq python3-numpy python3-scipy python-numpy python-scipy
+   - sudo apt-get install -qq python3-numpy python3-scipy python-numpy python-scipy libblas3
 env:
    - TOX_ENV=py27
    - TOX_ENV=pytest
