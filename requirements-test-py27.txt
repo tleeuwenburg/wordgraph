@@ -1,3 +1,4 @@
+numpy
 execnet==1.2.0
 Jinja2==2.7.3
 MarkupSafe==0.23
@@ -8,5 +9,4 @@ pytest-xdist==1.10
 tox==1.7.2
 virtualenv==1.11.6
 scipy
-numpy
 -e hg+https://bitbucket.org/tiran/backports.statistics#egg=backports

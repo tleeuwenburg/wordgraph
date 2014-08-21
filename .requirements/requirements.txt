@@ -1,4 +1,4 @@
-jinja2
 numpy
+jinja2
 scipy
 num2words
