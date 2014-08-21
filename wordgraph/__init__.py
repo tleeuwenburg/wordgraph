@@ -13,5 +13,6 @@
 # limitations under the License.
 
 from .describer import describe
+from .describer import Describer
 
 __all__ = ['describe']

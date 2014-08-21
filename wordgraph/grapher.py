@@ -65,9 +65,7 @@ class AutoGraph(Graph):
         needed for the realisers
         '''
 
-        self.raw_data = raw_data
-
-        return
+        raise NotImplementedError
 
 class MPLGraph(AutoGraph):
 
@@ -86,7 +84,7 @@ class MPLGraph(AutoGraph):
     def as_dict(self):
         return self.data_dict
 
-class GraphiteGraph(Graph):
+class GraphiteGraph(AutoGraph):
     '''
     Expects data as produced by the "graphite" web application.
     '''

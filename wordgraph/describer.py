@@ -21,6 +21,24 @@ GRAPH_TYPES = {
     'matplotlib': grapher.MPLGraph
 }
 
+class Describer():
+    def __init__(self, source=None, language='English', demographic='summary'):
+        '''
+        utility class for holding nondefault variables
+        >>> spanish_for_the_masses = Describer('graphite', 'es', 'summary')
+        >>> spanish_for_the_masses.description(data)
+        '''
+        self.source = source
+        self.language = language
+        self.demographic = demographic
+
+    def description(self, data, **kwargs):
+        args = self.__dict__.copy()
+        for key, value in kwargs.items():
+            args[key] = value
+
+        return describe(data, **args)
+
 def describe(data, source=None, language='English', demographic='summary'):
     '''
     Describe the supplied graph object, together with a hint about the source of that object.
