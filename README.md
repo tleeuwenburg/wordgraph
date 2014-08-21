@@ -53,3 +53,8 @@ $ python3
 > import wordgraph
 >
 ```
+
+Documentation
+-------------
+
+[Documentation for wordgraph](https://wordgraph.readthedocs.org/en/latest/) is available on ReadTheDocs.
