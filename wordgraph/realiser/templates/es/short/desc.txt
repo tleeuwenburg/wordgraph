@@ -1,0 +1,5 @@
+Este grafico{% if title is defined %}, {{ title }}, {% endif %}muestra la relacion entre {{ x_axis.label }} y {{ y_axis.label }}. El eje x, {{ x_axis.label }}, va desde {{ x_axis.min }} hasta {{ x_axis.max }}. El eje y, {{ y_axis.label }}, va desde {{ y_axis.min }} hasta {{ y_axis.max }}. Contiene {{ series | count }} series de datos. 
+{% for data in series %}
+    {% set series_index = loop.index %}
+    {% include "en/long/" + data['distribution']|lower + "-series.txt" %}
+{% endfor %}

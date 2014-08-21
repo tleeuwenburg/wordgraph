@@ -1,0 +1,5 @@
+Este grafico{% if title is defined %}, {{ title }},{% endif %} muestra la relacion entre {{ x_axis.label }} and {{ y_axis.label }}. 
+{% for data in series %}
+    {% set series_index = loop.index %}
+    {% include "en/long/" + data['distribution']|lower + "-series.txt" %}
+{% endfor %}

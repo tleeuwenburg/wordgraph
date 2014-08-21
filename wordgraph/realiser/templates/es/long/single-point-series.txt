@@ -1,0 +1,1 @@
+La serie de datos {% if data.name is defined %}{{ data.name }}{% else %}{{ series_index|num_to_word }}{% endif %} consiste de un solo punto con el valor {{ y_axis.min }} para {{ x_axis.label }} igual a {{ x_axis.min }}.

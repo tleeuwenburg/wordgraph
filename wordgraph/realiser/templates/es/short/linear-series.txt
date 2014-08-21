@@ -1,0 +1,9 @@
+La serie de datos
+    {%- if data.name is defined %} {{ data.name }}
+    {%- else %} {{ series_index|num_to_word }}
+    {% endif -%}
+ es 
+    {%- if data.fit > 0.75 %} altamente
+    {%- elif data.fit > 0.25 %} apenas
+    {%- else %} medianamente
+    {%- endif %} lineal. Tiene un valor inicial de {{ data.start_value.y|default('unknown') }} en el punto {{ data.start_value.y }} y {% if data.start_value.y > data.end_value.y %}asciende{% else %}desciende{% endif %} hasta alcanzar un valor de {{ data.end_value.y }} en el punto {{ data.end_value.x }}.

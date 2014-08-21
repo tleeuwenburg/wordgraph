@@ -1,0 +1,1 @@
+La serie de datos {% if data.name is defined %}{{ data.name }}{% else %}{{ series_index|num_to_word }}{% endif %} aparenta tener una distribucion aleatoria!
