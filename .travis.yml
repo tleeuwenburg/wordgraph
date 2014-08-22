@@ -5,7 +5,7 @@ python:
 virtualenv:
     system_site_packages: true
 before_install:
-   - sudo apt-get install -qq python3-numpy python3-scipy python-numpy python-scipy libblas3
+   - sudo apt-get install -qq python3-numpy python3-scipy python-numpy python-scipy
    - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
    - chmod +x miniconda.sh
    - ./miniconda.sh -b
