@@ -22,7 +22,7 @@ except ImportError:
     from unittest.mock import MagicMock as Mock
 
 # Mock out modules from external package dependencies
-MOCK_MODULES = ['matplotlib', 'numpy', 'scipy', 'statistics', 'num2words']
+MOCK_MODULES = ['numpy', 'scipy', 'statistics', 'num2words']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # If extensions (or modules to document with autodoc) are in another directory,

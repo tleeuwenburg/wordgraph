@@ -18,7 +18,6 @@ from . import realiser
 
 GRAPH_TYPES = {
     'graphite': grapher.GraphiteGraph,
-    'matplotlib': grapher.MPLGraph
 }
 
 class Describer():
@@ -47,12 +46,11 @@ def describe(data, source=None, language='English', demographic='summary'):
     @return: 
 
     Supported sources include:
-      -- Raw data
-      -- matplotlib (under dev)
-
+      -- Raw data (graphite-style)
 
     Unsupported sources include:
-      -- graphite (under dev)
+      -- graphite full integration 
+      -- matplotlib (under dev)      
       -- dot, networkx?
       -- json, text?
     '''

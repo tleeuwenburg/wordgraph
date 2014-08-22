@@ -36,7 +36,7 @@ This system is designed for potential inclusion into the graphite software packa
 Matplotlib
 ----------
 
-Matplotlib support is currently under development, but it not yet complete. The goal is to support this through direct introspection of the "figure" objects produced by matplotlib. Many users of matplotlib will be using either the 'pylab' or 'pyplot' / 'plt' interface for generating their graphs. These implicitly create a "currently active" figure which can be retrieved using "plt.gcf()". Users creating figures by hand can pass them in individually.
+Matplotlib support is currently stalled, and not yet complete. The goal is to support this through direct introspection of the "figure" objects produced by matplotlib. Many users of matplotlib will be using either the 'pylab' or 'pyplot' / 'plt' interface for generating their graphs. These implicitly create a "currently active" figure which can be retrieved using "plt.gcf()". Users creating figures by hand can pass them in individually.
 
 ::
 
