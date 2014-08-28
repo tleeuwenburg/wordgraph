@@ -8,4 +8,3 @@ pytest-xdist==1.10
 tox==1.7.2
 virtualenv==1.11.6
 scipy
-
