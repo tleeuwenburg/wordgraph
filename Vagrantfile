@@ -11,12 +11,10 @@ apt-get install -y --force-yes python3-numpy python3-scipy
 
 (
 	cd /wordgraph
-	pip3 install distutils
   pip3 install -r requirements-test.txt
   pip3 install -r requirements.txt
 )
 
-echo -e 'Done.\nRun `vagrant ssh` to get into the machine.\nThis directory is mounted at /wordgraph. Run `py.test tests/` to confirm you are set up for developing wordgraph.
 "
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
