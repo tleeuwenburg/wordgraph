@@ -1,4 +1,1 @@
--rrequirements.txt
 pytest
-tox
-pytest-xdist
