@@ -33,8 +33,7 @@ class Describer():
 
     def description(self, data, **kwargs):
         args = self.__dict__.copy()
-        for key, value in kwargs.items():
-            args[key] = value
+        args.update(kwargs)
 
         return describe(data, **args)
 
