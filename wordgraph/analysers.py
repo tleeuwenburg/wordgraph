@@ -43,7 +43,10 @@ UNPROCESSABLE = "Unprocessable"
 try:
     import statistics
 except ImportError:
-    import backports.statistics as statistics
+    try:
+        import backports.statistics as statistics
+    except ImportError:
+        print("Continuing unsafely. Upgrade to python 3.4! Could not find module 'statistics")
 
 from scipy import stats
 import numpy as np
