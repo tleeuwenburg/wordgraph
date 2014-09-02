@@ -54,7 +54,10 @@ import numpy as np
 
 def phi(x):
     '''
-    Cumulative distribution function for the standard normal distribution
+    Cumulative distribution function for the standard normal distribution.
+    
+    Note -- this expects the standard deviation normalisation to have already
+    been done outside of this fn.
 
     Taken from the python math docs. Using to avoid a scipy dependency for now -- 
     scipy is very hard to install via pip due to O/S package dependencies. We
