@@ -7,7 +7,7 @@ VAGRANTFILE_API_VERSION = "2"
 SHELL = "#!/bin/bash
 
 apt-get install -y --force-yes python3-pip python3-dev
-apt-get install -y --force-yes python3-numpy python3-scipy 
+apt-get install -y --force-yes python3-numpy
 
 (
 	cd /wordgraph

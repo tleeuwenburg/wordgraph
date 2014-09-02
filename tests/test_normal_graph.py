@@ -12,12 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
+import math
 import pytest
 import py
-from scipy.stats import norm
 from wordgraph import analysers
 from wordgraph.points import Point
+
+def phi(x):
+    '''
+    Cumulative distribution function for the standard normal distribution
+
+    Taken from the python math docs. Using to avoid a scipy dependency for now -- 
+    scipy is very hard to install via pip due to O/S package dependencies. We
+    want to support a simple install process if at all possible.
+
+    '''
+    return (1.0 + math.erf(x / math.sqrt(2.0))) / 2.0
 
 
 @pytest.mark.parametrize(["y_values", "expected"],
@@ -57,7 +67,7 @@ def test_zeroes():
 def test_normal(mean, stddev, offset):
     # create 100 buckets, from -5.0 to 4.9 inclusive
     x_values = [(.01 * i - 5) for i in range(1001)]
-    y_values = [100 * (norm.cdf(right) - norm.cdf(left))
+    y_values = [100 * (phi(right) - phi(left))
             for left, right in zip(x_values, x_values[1:])]
     points = [Point(x, y) for x, y in zip(x_values, y_values)]
     analyser = analysers.get_analysis(points=points)

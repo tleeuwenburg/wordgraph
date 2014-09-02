@@ -48,9 +48,20 @@ except ImportError:
     except ImportError:
         print("Continuing unsafely. Upgrade to python 3.4! Could not find module 'statistics")
 
-from scipy import stats
+import math
 import numpy as np
 
+
+def phi(x):
+    '''
+    Cumulative distribution function for the standard normal distribution
+
+    Taken from the python math docs. Using to avoid a scipy dependency for now -- 
+    scipy is very hard to install via pip due to O/S package dependencies. We
+    want to support a simple install process if at all possible.
+
+    '''
+    return (1.0 + math.erf(x / math.sqrt(2.0))) / 2.0
 
 class FixedIntervalAnalyser():
     """
@@ -204,9 +215,14 @@ class NormalDistribution(FixedIntervalAnalyser):
             - min(point.y for point in self.points)
         if self.stddev == 0:
             return 0
-        ideal_cumulative = dict((point.x,
-            stats.norm.cdf((point.x - self.mean) / self.stddev))
-            for point in self.points)
+
+        # ideal_cumulative = dict(
+        #         (point.x, stats.norm.cdf((point.x - self.mean) / self.stddev))
+        #     for point in self.points)
+
+        cum_points = [(point.x, phi((point.x - self.mean) / self.stddev)) for point in self.points]
+        ideal_cumulative = dict(cum_points)
+
         devtest = [(point.x, ideal_cumulative[point.x],
             (self._cumulative_size[point.x] / self.total_size),
             y_scale) for point in self.points]
