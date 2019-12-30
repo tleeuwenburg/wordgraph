@@ -1,9 +1,9 @@
 numpy
-Jinja2==2.7.3
-MarkupSafe==0.23
-num2words==0.5.1
-py==1.4.23
-pytest==2.6.0
-pytest-xdist==1.10
-tox==1.7.2
-virtualenv==1.11.6
+Jinja2
+MarkupSafe
+num2words
+py
+pytest
+pytest-xdist
+tox
+virtualenv
