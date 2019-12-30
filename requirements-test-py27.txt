@@ -1,7 +1,0 @@
-numpy
-Jinja2==2.7.3
-MarkupSafe==0.23
-num2words==0.5.1
-pytest==2.6.1
-requests==2.2.1
--e hg+https://bitbucket.org/tiran/backports.statistics#egg=backports
